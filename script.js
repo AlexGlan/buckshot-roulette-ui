@@ -88,7 +88,7 @@ startBtn.addEventListener('click', () => {
     roundText.classList.remove('hidden');
     refreshBtn.classList.remove('hidden');
 
-    const lives = Math.floor(Math.random() * MAX_LIVES) + MIN_LIVES;
+    const lives = Math.floor(Math.random() * (MAX_LIVES - MIN_LIVES + 1)) + MIN_LIVES;
     livesText.textContent = `${lives} lives`;
 
     startNewRound();
