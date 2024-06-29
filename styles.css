@@ -81,6 +81,8 @@ main::before {
 
 .btn:active {
     transform: translateY(4px);
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
 }
 
 #refresh-btn {
