@@ -3,6 +3,7 @@
 :root {
     --clr-dark-gray: #181818;
     --clr-light-gray: #c5c5c5;
+    --clr-yellow-glow: #FC0;
 
     --ff-primary: "JetBrains Mono", monospace;
     --fw-regular: 500;
@@ -24,9 +25,10 @@ body {
     font-optical-sizing: auto;
     color: var(--clr-light-gray);
     overflow: auto;
+    text-shadow: var(--clr-yellow-glow) 1px 1px 10px;
 }
 
-.container {
+main {
     width: 100%;
     min-height: 100vh;
     background-color: var(--clr-dark-gray);
@@ -36,7 +38,8 @@ body {
     align-items: center;
     
 }
-.container::before {
+
+main::before {
     content: " ";
     display: block;
     position: absolute;
@@ -58,4 +61,59 @@ body {
     background-size: 100% 3px, 3px 100%;
     z-index: 2;
     pointer-events: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.btn {
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: inherit;
+    font-style: inherit;
+    text-shadow: inherit;
+    color: inherit;
+    background-color: inherit;
+    text-transform: uppercase; 
+    padding: .2em .4em; 
+}
+
+.btn:active {
+    transform: translateY(4px);
+}
+
+#refresh-btn {
+    font-size: 1.3em;
+    max-width: 9rem;
+    box-shadow: black 1px 1px 10px;
+    margin: 1.5rem 0 .8rem 0;
+}
+
+#start-btn {
+    font-size: 2rem;
+    border: none;
+    margin-bottom: 1.2rem;
+}
+
+.round-counter {
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+}
+
+.container {
+    width: 85%;
+    max-width: 25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.outputs {
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.stats {
+    font-size: 1.8rem;
 }

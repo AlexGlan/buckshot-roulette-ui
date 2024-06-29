@@ -6,8 +6,22 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
     <title>Buckshot UI</title>
 </head>
-<body>    
-    <main class="container">
+<body>
+    <main>
+        <button class="btn" id="start-btn">Start game</button>
+        <h1 class="round-counter hidden" id="round"></h1>
+
+        <div class="container">
+            <div class="outputs">
+                <p class="stats" id="lives"></p>
+                <p class="stats" id="items"></p>
+            </div>        
+            <div class="outputs">
+                <p class="stats" id="shell-live-rounds"></p>
+                <p class="stats" id="shell-blanks"></p>
+            </div>
+            <button class="btn hidden" id="refresh-btn">New Round</button>
+        </div>
     </main>
     
     <script src="script.js"></script>
