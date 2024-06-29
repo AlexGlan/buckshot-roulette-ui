@@ -86,19 +86,20 @@ main::before {
 }
 
 #refresh-btn {
-    font-size: 1.3em;
-    max-width: 9rem;
+    font-size: 1.5em;
+    max-width: 10rem;
     box-shadow: black 1px 1px 10px;
     margin: 1.5rem 0 .8rem 0;
 }
 
 #start-btn {
-    font-size: 2rem;
+    font-size: 2.4rem;
     border: none;
     margin-bottom: 1.2rem;
 }
 
 .round-counter {
+    font-size: 2.4rem;
     text-transform: uppercase;
     margin-bottom: 1.2rem;
 }
@@ -117,5 +118,5 @@ main::before {
 }
 
 .stats {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
 }
