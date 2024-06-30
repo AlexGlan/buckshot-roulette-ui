@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
 :root {
+    --clr-black: #000000;
     --clr-dark-gray: #181818;
     --clr-light-gray: #c5c5c5;
     --clr-yellow-glow: #FC0;
@@ -88,8 +89,9 @@ main::before {
 #refresh-btn {
     font-size: 1.5em;
     max-width: 10rem;
-    box-shadow: black 1px 1px 10px;
-    margin: 1.5rem 0 .8rem 0;
+    margin: 1.8rem 0 .8rem 0;
+    box-shadow: var(--clr-black) 1px 3px 15px;
+    border: var(--clr-light-gray) 2px solid;
 }
 
 #start-btn {
