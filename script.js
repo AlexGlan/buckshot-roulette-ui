@@ -90,8 +90,11 @@ startBtn.addEventListener('click', () => {
 
     const lives = Math.floor(Math.random() * (MAX_LIVES - MIN_LIVES + 1)) + MIN_LIVES;
     livesText.textContent = `${lives} lives`;
+    triggerTypewriterAnimation(livesText);
 
     startNewRound();
 });
 
-refreshBtn.addEventListener('click', () => { startNewRound(); });
+refreshBtn.addEventListener('click', () => { 
+    startNewRound(); 
+});
