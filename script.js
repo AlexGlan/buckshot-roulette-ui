@@ -12,6 +12,15 @@ const MAX_ITEMS = 4;
 const MIN_SHELLS = 2;
 const MAX_SHELLS = 8;
 
+const triggerTypewriterAnimation = (elem) => {
+    if (elem.classList.contains('typewriter-animation')) {
+        elem.classList.remove('typewriter-animation');
+        // Restart CSS animation
+        elem.offsetWidth;
+    }
+    elem.classList.add('typewriter-animation');
+}
+
 const generateShells = () => {
     const prevLiveRounds = liveRoundsText.textContent !== ''
         ? parseInt(liveRoundsText.textContent[0])
@@ -66,6 +75,7 @@ const startNewRound = () => {
     itemsText.textContent = items > 1
         ? `${items} items`
         : `${items} item`
+    triggerTypewriterAnimation(itemsText);
 
     const [liveRounds, blanks] = generateShells();
     liveRoundsText.textContent = liveRounds > 1
@@ -74,6 +84,8 @@ const startNewRound = () => {
     blanksText.textContent = blanks > 1
         ? `${blanks} blanks`
         : `${blanks} blank`
+    triggerTypewriterAnimation(liveRoundsText);
+    triggerTypewriterAnimation(blanksText);
 
     const [text, count] = roundText.textContent.split(' ');
     if (text !== '' && count !== '') {

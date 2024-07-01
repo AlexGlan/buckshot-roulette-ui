@@ -9,6 +9,9 @@
     --ff-primary: "JetBrains Mono", monospace;
     --fw-regular: 500;
     --fs-regular: normal;
+
+    --typewriter-speed: .5s;
+    --typewriter-steps: 13;
 }
 
 *, 
@@ -121,4 +124,31 @@ main::before {
 
 .stats {
     font-size: 2.2rem;
+    width: max-content;
+    padding: .5rem;
+}
+
+.typewriter-animation {
+    position: relative;
+}
+
+.typewriter-animation::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--clr-dark-gray);
+    animation: 
+        typewriter
+        var(--typewriter-speed)
+        steps(var(--typewriter-steps))
+        forwards;
+}
+
+@keyframes typewriter {
+    to { 
+        left: 100%;
+    }
 }
