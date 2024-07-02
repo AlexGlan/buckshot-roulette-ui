@@ -1,6 +1,7 @@
 const startBtn = document.getElementById('start-btn');
 const refreshBtn = document.getElementById('refresh-btn');
 const roundText = document.getElementById('round');
+const firstPlayerText = document.getElementById('first-player');
 const livesText = document.getElementById('lives');
 const itemsText = document.getElementById('items');
 const liveRoundsText = document.getElementById('shell-live-rounds');
@@ -11,6 +12,8 @@ const MAX_LIVES = 5;
 const MAX_ITEMS = 4;
 const MIN_SHELLS = 2;
 const MAX_SHELLS = 8;
+const PLAYER_ONE_NAME = 'Skull';
+const PLAYER_TWO_NAME = 'Pilot';
 
 /**
  * Starts a new game and first round.
@@ -24,6 +27,11 @@ const generateFirstRound = () => {
     roundText.classList.remove('hidden');
     roundText.textContent = 'Round 1';
     refreshBtn.classList.remove('hidden');    
+
+    // Set first player
+    const firstPlayer = Math.random() > 0.5 ? PLAYER_ONE_NAME : PLAYER_TWO_NAME;
+    firstPlayerText.textContent = `"${firstPlayer}" goes first`;
+    firstPlayerText.classList.remove('hidden');
 
     // Set lives
     const lives = Math.floor(Math.random() * (MAX_LIVES - MIN_LIVES + 1)) + MIN_LIVES;
@@ -41,6 +49,10 @@ const generateFirstRound = () => {
  * @returns {void}
  */
 const generateNextRound = () => {
+    if (firstPlayerText.textContent !== '') {
+        firstPlayerText.classList.add('hidden');
+    }  
+
     // Set round counter
     const [text, count] = roundText.textContent.split(' ');
     roundText.textContent = `${text} ${parseInt(count) + 1}`;
