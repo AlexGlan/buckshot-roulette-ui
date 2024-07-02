@@ -63,7 +63,7 @@ const generateNextRound = () => {
 
 /**
  * Generates and sets random shells in a loadout.
- * Updated DOM with the result.
+ * Updates DOM with the result.
  * 
  * @returns {void}
  */
