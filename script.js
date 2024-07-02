@@ -12,6 +12,12 @@ const MAX_ITEMS = 4;
 const MIN_SHELLS = 2;
 const MAX_SHELLS = 8;
 
+/**
+ * Triggers CSS typewriter animation on the specified element.
+ * 
+ * @param {HTMLElement} elem - HTML element on which to run the animation.
+ * @returns {void}
+ */
 const triggerTypewriterAnimation = (elem) => {
     if (elem.classList.contains('typewriter-animation')) {
         elem.classList.remove('typewriter-animation');
@@ -21,6 +27,11 @@ const triggerTypewriterAnimation = (elem) => {
     elem.classList.add('typewriter-animation');
 }
 
+/**
+ * Generates random shells in a loadout.
+ * 
+ * @returns {number[]} Array containing two numbers representing live and blank rounds.
+ */
 const generateShells = () => {
     const prevLiveRounds = liveRoundsText.textContent !== ''
         ? parseInt(liveRoundsText.textContent[0])
@@ -32,7 +43,7 @@ const generateShells = () => {
     const prevShellAmount = prevLiveRounds + prevBlanks;
     let shellAmount = 0;
 
-    // Generate shell amount until we get a different value than last time
+    // Generate random amount of shells until we get a different value than last time
     do {
         shellAmount = Math.floor(Math.random() * (MAX_SHELLS - MIN_SHELLS + 1)) + MIN_SHELLS;
     } while (shellAmount === prevShellAmount);
@@ -45,7 +56,7 @@ const generateShells = () => {
         blanks === 0 ||
         liveRounds < Math.ceil(shellAmount / 3)
     ) {
-        // Reset variables from previous iteration if conditions were not met
+        // Reset variables from previous iteration
         liveRounds = 0;
         blanks = 0;
 
@@ -61,13 +72,17 @@ const generateShells = () => {
     return [liveRounds, blanks];
 }
 
+/**
+ * Starts a new round by generating and setting the random amount of items and shells.
+ * Updates DOM with the result.
+ */
 const startNewRound = () => {
     const prevItems = itemsText.textContent !== ''
         ? parseInt(itemsText.textContent[0])
         : 0
     let items = 0;
 
-    // Generate item amount until we get a different value than last time
+    // Generate random amount of items until we get a different value than last time
     do {
         items = Math.ceil(Math.random() * MAX_ITEMS);
     } while (items === prevItems);
