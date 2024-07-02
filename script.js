@@ -13,26 +13,49 @@ const MIN_SHELLS = 2;
 const MAX_SHELLS = 8;
 
 /**
- * Triggers CSS typewriter animation on the specified element.
+ * Starts a new game and first round.
+ * Initializes the first player, random amounts of lives, items, and shells.
+ * Updates DOM with new game state.
  * 
- * @param {HTMLElement} elem - HTML element on which to run the animation.
  * @returns {void}
  */
-const triggerTypewriterAnimation = (elem) => {
-    if (elem.classList.contains('typewriter-animation')) {
-        elem.classList.remove('typewriter-animation');
-        // Restart CSS animation
-        elem.offsetWidth;
-    }
-    elem.classList.add('typewriter-animation');
+const generateFirstRound = () => {
+    startBtn.classList.add('hidden');
+    roundText.classList.remove('hidden');
+    roundText.textContent = 'Round 1';
+    refreshBtn.classList.remove('hidden');    
+
+    // Set lives
+    const lives = Math.floor(Math.random() * (MAX_LIVES - MIN_LIVES + 1)) + MIN_LIVES;
+    livesText.textContent = `${lives} lives`;
+    triggerTypewriterAnimation(livesText);
+
+    setItems();
+    setShells();    
 }
 
 /**
- * Generates random shells in a loadout.
+ * Starts a new round by updating the amount of items and shells.
+ * Updates DOM with new game state.
  * 
- * @returns {number[]} Array containing two numbers representing live and blank rounds.
+ * @returns {void}
  */
-const generateShells = () => {
+const generateNextRound = () => {
+    // Set round counter
+    const [text, count] = roundText.textContent.split(' ');
+    roundText.textContent = `${text} ${parseInt(count) + 1}`;
+
+    setItems();
+    setShells();
+}
+
+/**
+ * Generates and sets random shells in a loadout.
+ * Updated DOM with the result.
+ * 
+ * @returns {void}
+ */
+const setShells = () => {
     const prevLiveRounds = liveRoundsText.textContent !== ''
         ? parseInt(liveRoundsText.textContent[0])
         : 0
@@ -52,9 +75,8 @@ const generateShells = () => {
     let blanks = 0;
 
     while (
-        liveRounds === 0 ||
-        blanks === 0 ||
-        liveRounds < Math.ceil(shellAmount / 3)
+        liveRounds < Math.ceil(shellAmount / 3) ||
+        blanks === 0
     ) {
         // Reset variables from previous iteration
         liveRounds = 0;
@@ -69,14 +91,24 @@ const generateShells = () => {
         }
     }
 
-    return [liveRounds, blanks];
+    liveRoundsText.textContent = liveRounds > 1
+        ? `${liveRounds} live rounds`
+        : `${liveRounds} live round`
+    triggerTypewriterAnimation(liveRoundsText);
+
+    blanksText.textContent = blanks > 1
+        ? `${blanks} blanks`
+        : `${blanks} blank`    
+    triggerTypewriterAnimation(blanksText);
 }
 
 /**
- * Starts a new round by generating and setting the random amount of items and shells.
- * Updates DOM with the result.
+ * Generates and sets random amount of items.
+ * Updated DOM with the result.
+ * 
+ * @returns {void}
  */
-const startNewRound = () => {
+const setItems = () => {
     const prevItems = itemsText.textContent !== ''
         ? parseInt(itemsText.textContent[0])
         : 0
@@ -86,42 +118,32 @@ const startNewRound = () => {
     do {
         items = Math.ceil(Math.random() * MAX_ITEMS);
     } while (items === prevItems);
-    
+
     itemsText.textContent = items > 1
         ? `${items} items`
         : `${items} item`
     triggerTypewriterAnimation(itemsText);
+}
 
-    const [liveRounds, blanks] = generateShells();
-    liveRoundsText.textContent = liveRounds > 1
-        ? `${liveRounds} live rounds`
-        : `${liveRounds} live round`
-    blanksText.textContent = blanks > 1
-        ? `${blanks} blanks`
-        : `${blanks} blank`
-    triggerTypewriterAnimation(liveRoundsText);
-    triggerTypewriterAnimation(blanksText);
-
-    const [text, count] = roundText.textContent.split(' ');
-    if (text !== '' && count !== '') {
-        roundText.textContent = `${text} ${parseInt(count) + 1}`;
-    } else {
-        roundText.textContent = 'Round 1';
+/**
+ * Triggers CSS typewriter animation on the specified element.
+ * 
+ * @param {HTMLElement} elem - HTML element on which to run the animation.
+ * @returns {void}
+ */
+const triggerTypewriterAnimation = (elem) => {
+    if (elem.classList.contains('typewriter-animation')) {
+        elem.classList.remove('typewriter-animation');
+        // Restart CSS animation
+        elem.offsetWidth;
     }
+    elem.classList.add('typewriter-animation');
 }
 
 startBtn.addEventListener('click', () => {
-    startBtn.classList.add('hidden');
-    roundText.classList.remove('hidden');
-    refreshBtn.classList.remove('hidden');
-
-    const lives = Math.floor(Math.random() * (MAX_LIVES - MIN_LIVES + 1)) + MIN_LIVES;
-    livesText.textContent = `${lives} lives`;
-    triggerTypewriterAnimation(livesText);
-
-    startNewRound();
+    generateFirstRound();
 });
 
 refreshBtn.addEventListener('click', () => { 
-    startNewRound(); 
+    generateNextRound(); 
 });
