@@ -74,12 +74,13 @@ main::before,
     color: inherit;
     background-color: inherit;
     text-transform: uppercase; 
-    padding: .2em .4em; 
+    padding: .2em .4em;
+    -webkit-tap-highlight-color: transparent;
+    
 }
 
 .btn:active {
     transform: translateY(4px);
-    -webkit-tap-highlight-color: transparent;
     outline: none;
 }
 
@@ -88,7 +89,7 @@ main::before,
 #close-phone-modal-btn,
 #close-player-modal-btn {
     font-size: 1.5em;
-    width: 9.5rem;
+    width: 10rem;
     margin: .8rem 0 .8rem 0;
     box-shadow: var(--clr-black) 1px 3px 15px;
     border: var(--clr-light-gray) 2px solid;
