@@ -92,7 +92,8 @@ main::before,
 
 #refresh-btn,
 #phone-btn,
-#close-phone-modal-btn {
+#close-phone-modal-btn,
+#close-player-modal-btn {
     font-size: 1.5em;
     width: 9.5rem;
     margin: .8rem 0 .8rem 0;

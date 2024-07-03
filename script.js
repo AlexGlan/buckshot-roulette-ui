@@ -5,6 +5,7 @@ const decrementBtn = document.getElementById('decrement-btn');
 const incrementBtn = document.getElementById('increment-btn');
 const phoneBtn = document.getElementById('phone-btn');
 const closePhoneModalBtn = document.getElementById('close-phone-modal-btn');
+const closePlayerModalBtn = document.getElementById('close-player-modal-btn');
 
 // Text elements
 const roundText = document.getElementById('round');
@@ -17,6 +18,7 @@ const phoneText = document.getElementById('phone-output');
 
 // Other elements
 const phoneModal = document.getElementById('phone-modal');
+const playerModal = document.getElementById('player-modal');
 const loadoutDiv = document.getElementById('loadout');
 
 const MIN_LIVES = 2;
@@ -59,7 +61,7 @@ const generateFirstRound = () => {
     // Set first player
     const firstPlayer = Math.random() > 0.5 ? PLAYER_ONE_NAME : PLAYER_TWO_NAME;
     firstPlayerText.textContent = `"${firstPlayer}" goes first`;
-    firstPlayerText.classList.remove('hidden');
+    playerModal.showModal();
 
     // Set lives
     const lives = Math.floor(Math.random() * (MAX_LIVES - MIN_LIVES + 1)) + MIN_LIVES;
@@ -252,4 +254,8 @@ phoneBtn.addEventListener('click', () => {
 
 closePhoneModalBtn.addEventListener('click', () => {
     phoneModal.close();
+});
+
+closePlayerModalBtn.addEventListener('click', () => {
+    playerModal.close();
 });
