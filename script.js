@@ -1,5 +1,7 @@
 const startBtn = document.getElementById('start-btn');
 const refreshBtn = document.getElementById('refresh-btn');
+const decrementBtn = document.getElementById('decrement-btn');
+const incrementBtn = document.getElementById('increment-btn');
 const roundText = document.getElementById('round');
 const firstPlayerText = document.getElementById('first-player');
 const livesText = document.getElementById('lives');
@@ -16,6 +18,8 @@ const MAX_SHELLS = 8;
 const PLAYER_ONE_NAME = 'Skull';
 const PLAYER_TWO_NAME = 'Pilot';
 const LOADOUT = [];
+const USED_SHELLS = [];
+let CURRENT_SHELL_NUMBER = 1;
 
 /**
  * Starts a new game and first round.
@@ -26,9 +30,12 @@ const LOADOUT = [];
  */
 const generateFirstRound = () => {
     startBtn.classList.add('hidden');
+    decrementBtn.classList.remove('hidden');
+    incrementBtn.classList.remove('hidden');
     roundText.classList.remove('hidden');
+    refreshBtn.classList.remove('hidden');
+    
     roundText.textContent = 'Round 1';
-    refreshBtn.classList.remove('hidden');    
 
     // Set first player
     const firstPlayer = Math.random() > 0.5 ? PLAYER_ONE_NAME : PLAYER_TWO_NAME;
@@ -42,6 +49,7 @@ const generateFirstRound = () => {
 
     setItems();
     setShells();    
+    CURRENT_SHELL_NUMBER = 1;
 }
 
 /**
@@ -61,6 +69,7 @@ const generateNextRound = () => {
 
     setItems();
     setShells();
+    CURRENT_SHELL_NUMBER = 1;
 }
 
 /**
@@ -77,11 +86,13 @@ const setShells = () => {
         shellAmount = Math.floor(Math.random() * (MAX_SHELLS - MIN_SHELLS + 1)) + MIN_SHELLS;
     } while (shellAmount === LOADOUT.length);
 
-    let liveRounds = 0;
-    let blanks = 0;
     // Empty loadout array from previous shells
     LOADOUT.length = 0;
+    USED_SHELLS.length = 0;
     loadoutDiv.innerHTML = '';
+
+    let liveRounds = 0;
+    let blanks = 0;
 
     while (
         liveRounds < Math.ceil(shellAmount / 3) ||
@@ -168,4 +179,24 @@ startBtn.addEventListener('click', () => {
 
 refreshBtn.addEventListener('click', () => { 
     generateNextRound(); 
+});
+
+decrementBtn.addEventListener('click', () => {
+    if (USED_SHELLS.length === 0) {
+        return;
+    }
+
+    const prevShell = USED_SHELLS.pop();
+    prevShell.classList.toggle('hidden');
+    CURRENT_SHELL_NUMBER--;
+});
+
+incrementBtn.addEventListener('click', () => {
+    if (CURRENT_SHELL_NUMBER > LOADOUT.length) {
+        return;
+    }
+
+    USED_SHELLS.push(document.getElementById(`shell-${CURRENT_SHELL_NUMBER}`));
+    USED_SHELLS[CURRENT_SHELL_NUMBER - 1].classList.toggle('hidden');
+    CURRENT_SHELL_NUMBER++;
 });
