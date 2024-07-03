@@ -1,13 +1,22 @@
+// Button elements
 const startBtn = document.getElementById('start-btn');
 const refreshBtn = document.getElementById('refresh-btn');
 const decrementBtn = document.getElementById('decrement-btn');
 const incrementBtn = document.getElementById('increment-btn');
+const phoneBtn = document.getElementById('phone-btn');
+const closePhoneModalBtn = document.getElementById('close-phone-modal-btn');
+
+// Text elements
 const roundText = document.getElementById('round');
 const firstPlayerText = document.getElementById('first-player');
 const livesText = document.getElementById('lives');
 const itemsText = document.getElementById('items');
 const liveRoundsText = document.getElementById('shell-live-rounds');
 const blanksText = document.getElementById('shell-blanks');
+const phoneText = document.getElementById('phone-output');
+
+// Other elements
+const phoneModal = document.getElementById('phone-modal');
 const loadoutDiv = document.getElementById('loadout');
 
 const MIN_LIVES = 2;
@@ -19,7 +28,16 @@ const PLAYER_ONE_NAME = 'Skull';
 const PLAYER_TWO_NAME = 'Pilot';
 const LOADOUT = [];
 const USED_SHELLS = [];
-let CURRENT_SHELL_NUMBER = 1;
+const SHELL_LOCATIONS = [
+    'First',
+    'Second',
+    'Third',
+    'Fourth',
+    'Fifth',
+    'Sixth',
+    'Seventh',
+    'Eigth'
+];
 
 /**
  * Starts a new game and first round.
@@ -31,6 +49,7 @@ let CURRENT_SHELL_NUMBER = 1;
 const generateFirstRound = () => {
     startBtn.classList.add('hidden');
     decrementBtn.classList.remove('hidden');
+    phoneBtn.classList.remove('hidden');
     incrementBtn.classList.remove('hidden');
     roundText.classList.remove('hidden');
     refreshBtn.classList.remove('hidden');
@@ -49,7 +68,6 @@ const generateFirstRound = () => {
 
     setItems();
     setShells();    
-    CURRENT_SHELL_NUMBER = 1;
 }
 
 /**
@@ -69,7 +87,6 @@ const generateNextRound = () => {
 
     setItems();
     setShells();
-    CURRENT_SHELL_NUMBER = 1;
 }
 
 /**
@@ -105,11 +122,21 @@ const setShells = () => {
 
         for (let i = 0; i < shellAmount; i++) {
             if (Math.random() > 0.5 || blanks === 4) {
+                // Generate live shell
+                const shell = {
+                    type: 'live',
+                    id: `shell-${i + 1}`
+                };
+                LOADOUT.push(shell);
                 liveRounds++;
-                LOADOUT.push('live');
             } else {
+                // Generate blank shell
+                const shell = {
+                    type: 'blank',
+                    id: `shell-${i + 1}`
+                };
+                LOADOUT.push(shell);
                 blanks++;
-                LOADOUT.push('blank');
             }
         }
     }
@@ -124,11 +151,11 @@ const setShells = () => {
         : `${blanks} blank`    
     triggerTypewriterAnimation(blanksText);
 
-    LOADOUT.forEach((shell, i) => {
+    LOADOUT.forEach(shell => {
         loadoutDiv.innerHTML += `
             <span
-                id="shell-${i + 1}"
-                class="shell ${shell}"
+                id="${shell.id}"
+                class="shell ${shell.type}"
             >
             </span>
         `;
@@ -159,6 +186,23 @@ const setItems = () => {
 }
 
 /**
+ * Shows the location and type of a random shell in loadout.
+ * Updates DOM with the result.
+ * 
+ * @returns {void}
+ */
+const usePhone = () => {
+    if (LOADOUT.length > 1) {
+        const randomVal = Math.floor(Math.random() * (LOADOUT.length - 1)) + 1;
+        const revealShell = LOADOUT[randomVal];
+        const revealLocation= SHELL_LOCATIONS[randomVal];
+        phoneText.textContent = `${revealLocation} shell ${revealShell.type} round`
+    } else {
+        phoneText.textContent = 'How Unfortunate';
+    } 
+}
+
+/**
  * Triggers CSS typewriter animation on the specified element.
  * 
  * @param {HTMLElement} elem - HTML element on which to run the animation.
@@ -185,18 +229,27 @@ decrementBtn.addEventListener('click', () => {
     if (USED_SHELLS.length === 0) {
         return;
     }
-
+    // Put last removed shell back into loadout
     const prevShell = USED_SHELLS.pop();
-    prevShell.classList.toggle('hidden');
-    CURRENT_SHELL_NUMBER--;
+    document.getElementById(prevShell.id).classList.toggle('hidden');
+    LOADOUT.unshift(prevShell);
 });
 
 incrementBtn.addEventListener('click', () => {
-    if (CURRENT_SHELL_NUMBER > LOADOUT.length) {
+    if (LOADOUT.length === 0) {
         return;
     }
+    // Remove current shell from a loudout
+    const currentShell = LOADOUT.shift();
+    document.getElementById(currentShell.id).classList.toggle('hidden');
+    USED_SHELLS.push(currentShell);
+});
 
-    USED_SHELLS.push(document.getElementById(`shell-${CURRENT_SHELL_NUMBER}`));
-    USED_SHELLS[CURRENT_SHELL_NUMBER - 1].classList.toggle('hidden');
-    CURRENT_SHELL_NUMBER++;
+phoneBtn.addEventListener('click', () => {
+    usePhone();
+    phoneModal.showModal();
+});
+
+closePhoneModalBtn.addEventListener('click', () => {
+    phoneModal.close();
 });
