@@ -43,7 +43,8 @@ main {
     
 }
 
-main::before {
+main::before,
+:modal::before {
     content: " ";
     display: block;
     position: absolute;
@@ -89,10 +90,12 @@ main::before {
     outline: none;
 }
 
-#refresh-btn {
+#refresh-btn,
+#phone-btn,
+#close-phone-modal-btn {
     font-size: 1.5em;
-    max-width: 10rem;
-    margin: 1.8rem 0 .8rem 0;
+    width: 9.5rem;
+    margin: .8rem 0 .8rem 0;
     box-shadow: var(--clr-black) 1px 3px 15px;
     border: var(--clr-light-gray) 2px solid;
 }
@@ -122,6 +125,7 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
 }
 
 .outputs {
@@ -165,9 +169,34 @@ h1 {
 
 .controls-container {
     margin-top: .6rem;
+    width: 90%;
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
 }
 
-.typewriter-animation {
+:modal {
+    padding: 2.2rem;
+    background-color: var(--clr-black);
+    color: var(--clr-light-gray);
+    box-shadow: var(--clr-black) 2px 2px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    border: none;
+}
+
+:modal > p {
+    text-transform: uppercase;
+    font-size: 2.2rem;
+    padding: .5rem;
+    text-align: center;
+}
+
+.typewriter-animation,
+.typewriter-animation-modal {
     position: relative;
 }
 
@@ -179,6 +208,21 @@ h1 {
     bottom: 0;
     left: 0;
     background-color: var(--clr-dark-gray);
+    animation: 
+        typewriter
+        var(--typewriter-speed)
+        steps(var(--typewriter-steps))
+        forwards;
+}
+
+.typewriter-animation-modal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var(--clr-black);
     animation: 
         typewriter
         var(--typewriter-speed)
