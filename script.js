@@ -6,6 +6,7 @@ const livesText = document.getElementById('lives');
 const itemsText = document.getElementById('items');
 const liveRoundsText = document.getElementById('shell-live-rounds');
 const blanksText = document.getElementById('shell-blanks');
+const loadoutDiv = document.getElementById('loadout');
 
 const MIN_LIVES = 2;
 const MAX_LIVES = 5;
@@ -14,6 +15,7 @@ const MIN_SHELLS = 2;
 const MAX_SHELLS = 8;
 const PLAYER_ONE_NAME = 'Skull';
 const PLAYER_TWO_NAME = 'Pilot';
+const LOADOUT = [];
 
 /**
  * Starts a new game and first round.
@@ -68,23 +70,18 @@ const generateNextRound = () => {
  * @returns {void}
  */
 const setShells = () => {
-    const prevLiveRounds = liveRoundsText.textContent !== ''
-        ? parseInt(liveRoundsText.textContent[0])
-        : 0
-    const prevBlanks = blanksText.textContent !== ''
-        ? parseInt(blanksText.textContent[0])
-        : 0
-
-    const prevShellAmount = prevLiveRounds + prevBlanks;
     let shellAmount = 0;
 
     // Generate random amount of shells until we get a different value than last time
     do {
         shellAmount = Math.floor(Math.random() * (MAX_SHELLS - MIN_SHELLS + 1)) + MIN_SHELLS;
-    } while (shellAmount === prevShellAmount);
+    } while (shellAmount === LOADOUT.length);
 
     let liveRounds = 0;
     let blanks = 0;
+    // Empty loadout array from previous shells
+    LOADOUT.length = 0;
+    loadoutDiv.innerHTML = '';
 
     while (
         liveRounds < Math.ceil(shellAmount / 3) ||
@@ -93,12 +90,15 @@ const setShells = () => {
         // Reset variables from previous iteration
         liveRounds = 0;
         blanks = 0;
+        LOADOUT.length = 0;
 
         for (let i = 0; i < shellAmount; i++) {
             if (Math.random() > 0.5 || blanks === 4) {
                 liveRounds++;
+                LOADOUT.push('live');
             } else {
                 blanks++;
+                LOADOUT.push('blank');
             }
         }
     }
@@ -112,6 +112,16 @@ const setShells = () => {
         ? `${blanks} blanks`
         : `${blanks} blank`    
     triggerTypewriterAnimation(blanksText);
+
+    LOADOUT.forEach((shell, i) => {
+        loadoutDiv.innerHTML += `
+            <span
+                id="shell-${i + 1}"
+                class="shell ${shell}"
+            >
+            </span>
+        `;
+    });
 }
 
 /**
