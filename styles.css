@@ -32,16 +32,11 @@ body {
     text-shadow: var(--clr-yellow-glow) 1px 1px 10px;
 }
 
-main {
-    width: 100%;
-    min-height: 100vh;
-    background-color: var(--clr-dark-gray);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    
+.hidden {
+    display: none !important;
 }
+
+/* || Background effect */
 
 main::before,
 :modal::before {
@@ -68,9 +63,7 @@ main::before,
     pointer-events: none;
 }
 
-.hidden {
-    display: none !important;
-}
+/* || Buttons */
 
 .btn {
     cursor: pointer;
@@ -111,6 +104,40 @@ main::before,
 #increment-btn {
     font-size: 2rem;
     border: none;
+}
+
+/* || Modals */
+
+:modal {
+    padding: 2.2rem;
+    background-color: var(--clr-black);
+    color: var(--clr-light-gray);
+    box-shadow: var(--clr-black) 2px 2px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    border: none;
+}
+
+:modal > p {
+    text-transform: uppercase;
+    font-size: 2.2rem;
+    padding: .5rem;
+    text-align: center;
+}
+
+/* || Main section */
+
+main {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--clr-dark-gray);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 h1 {
@@ -176,25 +203,7 @@ h1 {
     align-items: baseline;
 }
 
-:modal {
-    padding: 2.2rem;
-    background-color: var(--clr-black);
-    color: var(--clr-light-gray);
-    box-shadow: var(--clr-black) 2px 2px 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    border: none;
-}
-
-:modal > p {
-    text-transform: uppercase;
-    font-size: 2.2rem;
-    padding: .5rem;
-    text-align: center;
-}
+/* || Animations */
 
 .typewriter-animation,
 .typewriter-animation-modal {
