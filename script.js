@@ -233,8 +233,13 @@ decrementBtn.addEventListener('click', () => {
     }
     // Put last removed shell back into loadout
     const prevShell = USED_SHELLS.pop();
-    document.getElementById(prevShell.id).classList.toggle('hidden');
     LOADOUT.unshift(prevShell);
+    
+    // Disable fade-in animation on re-render
+    const prevShellElem = document.getElementById(prevShell.id);
+    prevShellElem.style.animation = 'none';
+    prevShellElem.style.opacity = 1;
+    prevShellElem.classList.toggle('hidden');
 });
 
 incrementBtn.addEventListener('click', () => {
