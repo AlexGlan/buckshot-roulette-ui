@@ -6,6 +6,9 @@ const incrementBtn = document.getElementById('increment-btn');
 const phoneBtn = document.getElementById('phone-btn');
 const closePhoneModalBtn = document.getElementById('close-phone-modal-btn');
 const closePlayerModalBtn = document.getElementById('close-player-modal-btn');
+const restartBtn = document.getElementById('restart-btn');
+const confirmRestartBtn = document.getElementById('confirm-restart-btn');
+const cancelRestartBtn = document.getElementById('cancel-restart-btn');
 
 // Text elements
 const roundText = document.getElementById('round');
@@ -19,6 +22,7 @@ const phoneText = document.getElementById('phone-output');
 // Other elements
 const phoneModal = document.getElementById('phone-modal');
 const playerModal = document.getElementById('player-modal');
+const restartModal = document.getElementById('restart-modal');
 const loadoutDiv = document.getElementById('loadout');
 
 const MIN_LIVES = 2;
@@ -55,6 +59,7 @@ const generateFirstRound = () => {
     incrementBtn.classList.remove('hidden');
     roundText.classList.remove('hidden');
     refreshBtn.classList.remove('hidden');
+    restartBtn.classList.remove('hidden');
     
     roundText.textContent = 'Round 1';
 
@@ -79,10 +84,6 @@ const generateFirstRound = () => {
  * @returns {void}
  */
 const generateNextRound = () => {
-    if (firstPlayerText.textContent !== '') {
-        firstPlayerText.classList.add('hidden');
-    }  
-
     // Set round counter
     const [text, count] = roundText.textContent.split(' ');
     roundText.textContent = `${text} ${parseInt(count) + 1}`;
@@ -263,4 +264,17 @@ closePhoneModalBtn.addEventListener('click', () => {
 
 closePlayerModalBtn.addEventListener('click', () => {
     playerModal.close();
+});
+
+restartBtn.addEventListener('click', () => {
+    restartModal.showModal();
+});
+
+confirmRestartBtn.addEventListener('click', () => {
+    restartModal.close();
+    generateFirstRound();
+});
+
+cancelRestartBtn.addEventListener('click', () => {
+    restartModal.close();
 });

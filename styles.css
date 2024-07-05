@@ -87,7 +87,10 @@ main::before,
 #refresh-btn,
 #phone-btn,
 #close-phone-modal-btn,
-#close-player-modal-btn {
+#close-player-modal-btn,
+#restart-btn,
+#confirm-restart-btn,
+#cancel-restart-btn {
     font-size: 1.5em;
     width: 10rem;
     margin: .8rem 0 .8rem 0;
@@ -124,7 +127,7 @@ main::before,
 
 :modal > p {
     text-transform: uppercase;
-    font-size: 2.2rem;
+    font-size: 2rem;
     padding: .5rem;
     text-align: center;
 }
@@ -145,7 +148,6 @@ h1 {
     font-size: 2.4rem;
     text-transform: uppercase;
     text-align: center;
-    margin-bottom: 1.2rem;
 }
 
 .container {
@@ -159,7 +161,7 @@ h1 {
 
 .outputs {
     width: 100%;
-    margin: 1rem 0;
+    margin-top: 1rem;
 }
 
 .stats {
