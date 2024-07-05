@@ -12,6 +12,7 @@
 
     --typewriter-speed: .5s;
     --typewriter-steps: 13;
+    --fade-in-speed: .5s;
 }
 
 *, 
@@ -84,13 +85,7 @@ main::before,
     outline: none;
 }
 
-#refresh-btn,
-#phone-btn,
-#close-phone-modal-btn,
-#close-player-modal-btn,
-#restart-btn,
-#confirm-restart-btn,
-#cancel-restart-btn {
+.standard {
     font-size: 1.5em;
     width: 10rem;
     margin: .8rem 0 .8rem 0;
@@ -184,7 +179,7 @@ h1 {
     opacity: 0;
     animation:
         fadeIn
-        .5s
+        var(--fade-in-speed)
         ease
         var(--typewriter-speed)
         forwards;

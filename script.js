@@ -22,7 +22,7 @@ const phoneText = document.getElementById('phone-output');
 // Other elements
 const phoneModal = document.getElementById('phone-modal');
 const playerModal = document.getElementById('player-modal');
-const restartModal = document.getElementById('restart-modal');
+const gameRestartModal = document.getElementById('restart-modal');
 const loadoutDiv = document.getElementById('loadout');
 
 const MIN_LIVES = 2;
@@ -220,13 +220,8 @@ const triggerTypewriterAnimation = (elem) => {
     elem.classList.add('typewriter-animation');
 }
 
-startBtn.addEventListener('click', () => {
-    generateFirstRound();
-});
-
-refreshBtn.addEventListener('click', () => { 
-    generateNextRound(); 
-});
+startBtn.addEventListener('click', generateFirstRound);
+refreshBtn.addEventListener('click', generateNextRound);
 
 decrementBtn.addEventListener('click', () => {
     if (USED_SHELLS.length === 0) {
@@ -267,14 +262,14 @@ closePlayerModalBtn.addEventListener('click', () => {
 });
 
 restartBtn.addEventListener('click', () => {
-    restartModal.showModal();
+    gameRestartModal.showModal();
 });
 
 confirmRestartBtn.addEventListener('click', () => {
-    restartModal.close();
+    gameRestartModal.close();
     generateFirstRound();
 });
 
 cancelRestartBtn.addEventListener('click', () => {
-    restartModal.close();
+    gameRestartModal.close();
 });
