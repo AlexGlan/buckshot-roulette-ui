@@ -99,61 +99,55 @@ const generateNextRound = () => {
  * @returns {void}
  */
 const setShells = () => {
-    let shellAmount = 0;
+    let loadoutSize = 0;
 
     // Generate random amount of shells until we get a different value than last time
     do {
-        shellAmount = Math.floor(Math.random() * (MAX_SHELLS - MIN_SHELLS + 1)) + MIN_SHELLS;
-    } while (shellAmount === LOADOUT.length);
+        loadoutSize = Math.floor(Math.random() * (MAX_SHELLS - MIN_SHELLS + 1)) + MIN_SHELLS;
+    } while (loadoutSize === LOADOUT.length);
 
     // Empty loadout array from previous shells
     LOADOUT.length = 0;
     USED_SHELLS.length = 0;
     loadoutDiv.innerHTML = '';
 
-    let liveRounds = 0;
-    let blanks = 0;
-
-    while (
-        liveRounds < Math.ceil(shellAmount / 3) ||
-        blanks === 0
-    ) {
-        // Reset variables from previous iteration
-        liveRounds = 0;
-        blanks = 0;
-        LOADOUT.length = 0;
-
-        for (let i = 0; i < shellAmount; i++) {
-            if (Math.random() > 0.5 || blanks === 4) {
-                // Generate live shell
-                const shell = {
-                    type: 'live',
-                    id: `shell-${i + 1}`
-                };
-                LOADOUT.push(shell);
-                liveRounds++;
-            } else {
-                // Generate blank shell
-                const shell = {
-                    type: 'blank',
-                    id: `shell-${i + 1}`
-                };
-                LOADOUT.push(shell);
-                blanks++;
-            }
+    let amountLive = Math.max(1, Math.floor(loadoutSize / 2));
+    let amountBlank = loadoutSize - amountLive;
+    
+    // Add live and blank rounds to loadout array
+    for (let i = 0; i < loadoutSize; i++ ) {
+        if (i < amountLive) {
+            LOADOUT.push({
+                type: 'live',
+                id: `shell-${i + 1}`
+            });
+        } else {
+            LOADOUT.push({
+                type: 'blank',
+                id: `shell-${i + 1}`
+            });
         }
     }
 
-    liveRoundsText.textContent = liveRounds > 1
-        ? `${liveRounds} live rounds`
-        : `${liveRounds} live round`
+    // Shuffle loadout array to simulate inserting shells in a hidden sequence
+    for (let i = LOADOUT.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = LOADOUT[i];
+
+        LOADOUT[i] = LOADOUT[j];
+        LOADOUT[j] = temp;
+    }
+    
+    liveRoundsText.textContent = amountLive > 1
+        ? `${amountLive} live rounds`
+        : `${amountLive} live round`
     triggerTypewriterAnimation(liveRoundsText);
 
-    blanksText.textContent = blanks > 1
-        ? `${blanks} blanks`
-        : `${blanks} blank`    
+    blanksText.textContent = amountBlank > 1
+        ? `${amountBlank} blanks`
+        : `${amountBlank} blank`
     triggerTypewriterAnimation(blanksText);
-
+    
     LOADOUT.forEach(shell => {
         loadoutDiv.innerHTML += `
             <span
