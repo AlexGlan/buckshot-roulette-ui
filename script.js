@@ -27,7 +27,8 @@ const loadoutDiv = document.getElementById('loadout');
 
 const MIN_LIVES = 2;
 const MAX_LIVES = 5;
-const MAX_ITEMS = 4;
+const MIN_ITEMS = 2;
+const MAX_ITEMS = 3;
 const MIN_SHELLS = 2;
 const MAX_SHELLS = 8;
 const PLAYER_ONE_NAME = 'Skull';
@@ -73,8 +74,8 @@ const generateFirstRound = () => {
     livesText.textContent = `${lives} lives`;
     triggerTypewriterAnimation(livesText);
 
+    setShells();
     setItems();
-    setShells();    
 }
 
 /**
@@ -88,8 +89,8 @@ const generateNextRound = () => {
     const [text, count] = roundText.textContent.split(' ');
     roundText.textContent = `${text} ${parseInt(count) + 1}`;
 
-    setItems();
     setShells();
+    setItems();
 }
 
 /**
@@ -173,12 +174,14 @@ const setItems = () => {
 
     // Generate random amount of items until we get a different value than last time
     do {
-        items = Math.ceil(Math.random() * MAX_ITEMS);
+        items = Math.floor(Math.random() * (MAX_ITEMS - MIN_ITEMS + 1)) + MIN_ITEMS;
     } while (items === prevItems);
 
-    itemsText.textContent = items > 1
-        ? `${items} items`
-        : `${items} item`
+    if (LOADOUT.length > 6) {
+        items += 1;
+    }
+
+    itemsText.textContent = `${items} items`;
     triggerTypewriterAnimation(itemsText);
 }
 
