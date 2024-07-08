@@ -25,7 +25,7 @@ const playerModal = document.getElementById('player-modal');
 const gameRestartModal = document.getElementById('restart-modal');
 const loadoutDiv = document.getElementById('loadout');
 
-const MIN_LIVES = 2;
+const MIN_LIVES = 3;
 const MAX_LIVES = 5;
 const MIN_ITEMS = 2;
 const MAX_ITEMS = 3;
