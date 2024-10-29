@@ -7,11 +7,10 @@ export const generateLives = (min: number, max: number): number => {
 export const generateItems = (
     min: number,
     max: number,
-    prevItems: number = 0,
-    loadoutLength: number
+    loadoutLength: number,
+    prevItems: number = 0
 ): number => {
     let items: number = 0;
-
     // Generate random amount of items until we get a different value than last time
     do {
         items = Math.floor(Math.random() * (max - min + 1)) + min;
