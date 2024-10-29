@@ -16,7 +16,7 @@ export const generateItems = (
         items = Math.floor(Math.random() * (max - min + 1)) + min;
     } while (items === prevItems);
 
-    return loadoutLength < 6 ? items : items += 1;
+    return loadoutLength <= 6 ? items : items += 1;
 }
 
 export const generateShells = (
