@@ -51,6 +51,8 @@ const App = () => {
     const [phoneModalStatus, setPhoneModalStatus] = useState<boolean>(false);
     const [restartModalStatus, setRestartModalStatus] = useState<boolean>(false);
 
+    const [playAnimationStatus, setAnimationStatus] = useState<boolean>(false);
+
     const generateFirstRound = (): void => {
         setRound(1);
         setLives(generateLives(MIN_LIVES, MAX_LIVES));
@@ -197,7 +199,7 @@ const App = () => {
                 modalStatus={playerModalStatus}
                 children={(
                 <>
-                    <p>"{firstPlayer}" goes first</p>
+                    <p className="typewriter-animation-modal">"{firstPlayer}" goes first</p>
                     <Button
                         label="Close"
                         handleClick={() => { toggleModal('player-modal'); }}
@@ -211,7 +213,7 @@ const App = () => {
                 modalStatus={phoneModalStatus}
                 children={(
                 <>
-                    <p>{usePhone(gameObj.loadout, SHELL_LOCATIONS)}</p>
+                    <p className="typewriter-animation-modal">{usePhone(gameObj.loadout, SHELL_LOCATIONS)}</p>
                     <Button
                         label="Close"
                         handleClick={() => { toggleModal('phone-modal'); }}
@@ -225,7 +227,7 @@ const App = () => {
                 modalStatus={restartModalStatus}
                 children={(
                 <>
-                    <p>Are you sure?</p>
+                    <p className="typewriter-animation-modal">Are you sure?</p>
                     <Button
                         label="Yes"
                         handleClick={() => {
