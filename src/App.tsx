@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { generateItems, generateLives, generateShells } from "./utils/gameUtils";
+import Button from "./components/Button";
 
 export type Shell = {
     type: string,
@@ -34,6 +35,7 @@ const SHELL_LOCATIONS: string[] = [
 ];
 
 const App = () => {
+    const [isGameStarted, setGameStatus] = useState<boolean>(false);
     const [firstPlayer, setFirstPlayer] = useState<string | null>(null);
     const [round, setRound] = useState<number>(1);
     const [lives, setLives] = useState<number>(0);
@@ -65,6 +67,8 @@ const App = () => {
                 blankShells
             }
         });
+        
+        setGameStatus(true);
     }
 
     const generateNextRound = (): void => {
@@ -116,9 +120,51 @@ const App = () => {
         });
     }
 
-  return (
-    <></>
-  )
+    let content: React.ReactNode;
+
+    if (!isGameStarted) {
+        content = (
+            <Button label="Start Game" handleClick={generateFirstRound} variant="start" />
+        );
+    } else {
+        content = (
+            <>
+                <h1>Round {round}</h1>
+                <div className="container">
+                    <div className="outputs">
+                        <p className="stats">{lives} lives</p>
+                        <p className="stats">{gameObj.items} items</p>
+                    </div>
+                    <div className="outputs">
+                        <p className="stats">{gameObj.liveShells} live rounds</p>
+                        <p className="stats">{gameObj.blankShells} blanks</p>
+                    </div>
+                    <div className="loadout-container">
+                        {
+                            gameObj.loadout.map(shell => (
+                                <span key={shell.id} className={`shell ${shell.type}`}></span>
+                            ))
+                        }
+                    </div>
+                    <div className="controls-container">
+                        <Button label="−" handleClick={restoreShell} variant="control" />
+                        <Button label="Brn Phone" handleClick={() => {}} variant="standard" />
+                        <Button label="+" handleClick={removeShell} variant="control" />
+                    </div>
+                    <Button label="New Round" handleClick={generateNextRound} variant="standard" />
+                    <Button label="Restart" handleClick={generateFirstRound} variant="standard" />
+                </div>
+            </>
+        )
+    }
+
+    return (
+        <>
+            <main className="game-content">
+                {content}
+            </main>
+        </>
+    )
 }
 
 export default App;
