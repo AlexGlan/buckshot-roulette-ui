@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { generateItems, generateLives, generateShells } from "./utils/gameUtils";
+import { generateItems, generateLives, generateShells, usePhone } from "./utils/gameUtils";
 import Button from "./components/Button";
+import Modal from "./components/Modal";
 
 export type Shell = {
     type: string,
@@ -46,6 +47,9 @@ const App = () => {
         blankShells: 0,
         usedShells: []
     });
+    const [playerModalStatus, setPlayerModalStatus] = useState<boolean>(false);
+    const [phoneModalStatus, setPhoneModalStatus] = useState<boolean>(false);
+    const [restartModalStatus, setRestartModalStatus] = useState<boolean>(false);
 
     const generateFirstRound = (): void => {
         setRound(1);
@@ -69,6 +73,7 @@ const App = () => {
         });
         
         setGameStatus(true);
+        toggleModal('player-modal');
     }
 
     const generateNextRound = (): void => {
@@ -120,6 +125,22 @@ const App = () => {
         });
     }
 
+    const toggleModal = (modalID: string): void => {
+        switch (modalID) {
+            case 'player-modal':
+                setPlayerModalStatus(prevStatus => !prevStatus);
+                break;
+            case 'phone-modal':
+                setPhoneModalStatus(prevStatus => !prevStatus);
+                break;
+            case 'restart-modal':
+                setRestartModalStatus(prevStatus => !prevStatus);
+                break;
+            default:
+                break;
+        }
+    }
+
     let content: React.ReactNode;
 
     if (!isGameStarted) {
@@ -148,11 +169,19 @@ const App = () => {
                     </div>
                     <div className="controls-container">
                         <Button label="−" handleClick={restoreShell} variant="control" />
-                        <Button label="Brn Phone" handleClick={() => {}} variant="standard" />
+                        <Button
+                            label="Brn Phone"
+                            handleClick={() => { toggleModal('phone-modal'); }}
+                            variant="standard"
+                        />
                         <Button label="+" handleClick={removeShell} variant="control" />
                     </div>
                     <Button label="New Round" handleClick={generateNextRound} variant="standard" />
-                    <Button label="Restart" handleClick={generateFirstRound} variant="standard" />
+                    <Button
+                        label="Restart"
+                        handleClick={() => { toggleModal('restart-modal'); }}
+                        variant="standard"
+                    />
                 </div>
             </>
         )
@@ -163,6 +192,56 @@ const App = () => {
             <main className="game-content">
                 {content}
             </main>
+            <Modal
+                id="player-modal"
+                modalStatus={playerModalStatus}
+                children={(
+                <>
+                    <p>"{firstPlayer}" goes first</p>
+                    <Button
+                        label="Close"
+                        handleClick={() => { toggleModal('player-modal'); }}
+                        variant="standard"
+                    />
+                </>
+                )}
+            />
+            <Modal
+                id="phone-modal"
+                modalStatus={phoneModalStatus}
+                children={(
+                <>
+                    <p>{usePhone(gameObj.loadout, SHELL_LOCATIONS)}</p>
+                    <Button
+                        label="Close"
+                        handleClick={() => { toggleModal('phone-modal'); }}
+                        variant="standard"
+                    />
+                </>
+                )}
+            />
+            <Modal
+                id="restart-modal"
+                modalStatus={restartModalStatus}
+                children={(
+                <>
+                    <p>Are you sure?</p>
+                    <Button
+                        label="Yes"
+                        handleClick={() => {
+                            toggleModal('restart-modal');
+                            generateFirstRound();
+                        }}
+                        variant="standard"
+                    />
+                    <Button
+                        label="No"
+                        handleClick={() => { toggleModal('restart-modal'); }}
+                        variant="standard"
+                    />
+                </>
+                )}
+            />
         </>
     )
 }
