@@ -23,12 +23,16 @@ body::before,
     background-size: 100% 3px, 3px 100%;
     z-index: 2;
     pointer-events: none;
+    overflow: hidden;
 }
 
 body {
+    background-color: $clr-dark-gray;
+}
+
+#root {
     width: 100%;
     min-height: 100vh;
-    background-color: $clr-dark-gray;
     display: flex;
     flex-direction: column;
     justify-content: center;
