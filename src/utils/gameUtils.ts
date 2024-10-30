@@ -38,12 +38,12 @@ export const generateShells = (
         if (i < amountLive) {
             loadout.push({
                 type: 'live',
-                id: `shell-${i + 1}`
+                id: `shell-${Math.floor(Math.random() * 1000) + 1}`
             });
         } else {
             loadout.push({
                 type: 'blank',
-                id: `shell-${i + 1}`
+                id: `shell-${Math.floor(Math.random() * 1000) + 1}`
             });
         }
     }
