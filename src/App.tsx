@@ -51,8 +51,6 @@ const App = () => {
     const [phoneModalStatus, setPhoneModalStatus] = useState<boolean>(false);
     const [restartModalStatus, setRestartModalStatus] = useState<boolean>(false);
 
-    const [playAnimationStatus, setAnimationStatus] = useState<boolean>(false);
-
     const generateFirstRound = (): void => {
         setRound(1);
         setLives(generateLives(MIN_LIVES, MAX_LIVES));
