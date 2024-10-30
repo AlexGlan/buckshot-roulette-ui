@@ -1,0 +1,59 @@
+@use '../abstracts' as *;
+
+.game-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 85%;
+        max-width: 25rem;
+    
+        .outputs {
+            width: 100%;
+            margin-top: 1rem;
+    
+            .stats {
+                font-size: 2.2rem;
+                width: max-content;
+                padding: .5rem;
+            }
+        }
+
+        .loadout-container {
+            display: flex;
+            gap: .6rem;
+            margin: .8rem 0;
+        
+            .shell {
+                height: 22px;
+                width: 22px;
+                border-radius: 50%;
+                margin: 0 .2rem;
+                display: inline-block;
+                box-shadow: $clr-yellow-glow 0 0 10px;
+            }
+        
+            .live {
+                background-color: $clr-light-gray;
+            }
+        
+            .blank {
+                background-color: $clr-dark-gray;
+            }
+        }
+        
+        .controls-container {
+            margin-top: .6rem;
+            width: 90%;
+            display: flex;
+            justify-content: space-around;
+            align-items: baseline;
+        }
+    }
+}
