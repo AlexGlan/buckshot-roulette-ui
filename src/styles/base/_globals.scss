@@ -38,16 +38,3 @@ body {
     justify-content: center;
     align-items: center;
 }
-
-:modal {
-    padding: 2.2rem;
-    background-color: $clr-black;
-    color: $clr-light-gray;
-    box-shadow: $clr-black 2px 2px 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    border: none;
-}
