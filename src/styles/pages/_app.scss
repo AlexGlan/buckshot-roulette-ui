@@ -37,6 +37,13 @@
                 margin: 0 .2rem;
                 display: inline-block;
                 box-shadow: $clr-yellow-glow 0 0 10px;
+                opacity: 0;
+                animation:
+                    fadeIn
+                    $fade-in-speed
+                    ease
+                    $typewriter-speed
+                    forwards;
             }
         
             .live {
