@@ -1,0 +1,48 @@
+@use '../abstracts' as *;
+
+.typewriter-animation,
+.typewriter-animation-modal {
+    position: relative;
+}
+
+.typewriter-animation::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: $clr-dark-gray;
+    animation: 
+        typewriter
+        $typewriter-speed
+        steps($typewriter-steps)
+        forwards;
+}
+
+.typewriter-animation-modal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: $clr-black;
+    animation: 
+        typewriter
+        $typewriter-speed
+        steps($typewriter-steps)
+        forwards;
+}
+
+@keyframes typewriter {
+    to { 
+        left: 100%;
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}

@@ -1,0 +1,31 @@
+@use '../abstracts' as *;
+
+button {
+    cursor: pointer;
+    color: inherit;
+    background-color: inherit;
+
+    &:active {
+        transform: translateY(4px);
+        outline: none;
+    }
+}
+
+.btn-standard {
+    font-size: 1.5em;
+    width: 10rem;
+    margin: .8rem 0 .8rem 0;
+    box-shadow: $clr-black 1px 3px 15px;
+    border: $clr-light-gray 2px solid;
+}
+
+.btn-control {
+    font-size: 2rem;
+    border: none;
+}
+
+.btn-start {
+    font-size: 2.4rem;
+    border: none;
+    margin-bottom: 1.2rem;
+}
