@@ -50,6 +50,10 @@ const App = () => {
     const [playerModalStatus, setPlayerModalStatus] = useState<boolean>(false);
     const [phoneModalStatus, setPhoneModalStatus] = useState<boolean>(false);
     const [restartModalStatus, setRestartModalStatus] = useState<boolean>(false);
+    const [livesKey, setLivesKey] = useState<number>(Math.floor(Math.random() * 1000 + 1));
+    const [itemsKey, setItemsKey] = useState<number>(Math.floor(Math.random() * 1000 + 1));
+    const [liveShellsKey, setLiveShellsKey] = useState<number>(Math.floor(Math.random() * 1000 + 1));
+    const [blankShellsKey, setBlankShellsKey] = useState<number>(Math.floor(Math.random() * 1000 + 1));
 
     const generateFirstRound = (): void => {
         setRound(1);
@@ -74,6 +78,11 @@ const App = () => {
         
         setGameStatus(true);
         toggleModal('player-modal');
+        // Restart CSS amination
+        setLivesKey(Math.floor(Math.random() * 1000 + 1));
+        setItemsKey(Math.floor(Math.random() * 1000 + 1));
+        setLiveShellsKey(Math.floor(Math.random() * 1000 + 1));
+        setBlankShellsKey(Math.floor(Math.random() * 1000 + 1));
     }
 
     const generateNextRound = (): void => {
@@ -95,6 +104,10 @@ const App = () => {
                 blankShells
             }
         });
+        // Restart CSS amination
+        setItemsKey(Math.floor(Math.random() * 1000 + 1));
+        setLiveShellsKey(Math.floor(Math.random() * 1000 + 1));
+        setBlankShellsKey(Math.floor(Math.random() * 1000 + 1));
     }
 
     const removeShell = (): void => {
@@ -153,12 +166,12 @@ const App = () => {
                 <h1>Round {round}</h1>
                 <div className="container">
                     <div className="outputs">
-                        <p className="stats">{lives} lives</p>
-                        <p className="stats">{gameObj.items} items</p>
+                        <p key={livesKey} className="stats typewriter-animation">{lives} lives</p>
+                        <p key={itemsKey} className="stats typewriter-animation">{gameObj.items} items</p>
                     </div>
                     <div className="outputs">
-                        <p className="stats">{gameObj.liveShells} live rounds</p>
-                        <p className="stats">{gameObj.blankShells} blanks</p>
+                        <p key={liveShellsKey} className="stats typewriter-animation">{gameObj.liveShells} live rounds</p>
+                        <p key={blankShellsKey} className="stats typewriter-animation">{gameObj.blankShells} blanks</p>
                     </div>
                     <div className="loadout-container">
                         {
