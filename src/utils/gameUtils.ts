@@ -1,4 +1,5 @@
 import { Shell } from "../App";
+import generateRandomID from "./generateRandomID";
 
 export const generateLives = (min: number, max: number): number => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -38,12 +39,12 @@ export const generateShells = (
         if (i < amountLive) {
             loadout.push({
                 type: 'live',
-                id: `shell-${Math.floor(Math.random() * 1000) + 1}`
+                id: generateRandomID()
             });
         } else {
             loadout.push({
                 type: 'blank',
-                id: `shell-${Math.floor(Math.random() * 1000) + 1}`
+                id: generateRandomID()
             });
         }
     }
