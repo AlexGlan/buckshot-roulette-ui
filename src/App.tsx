@@ -2,6 +2,7 @@ import { useState } from "react";
 import { generateItems, generateLives, generateShells, usePhone } from "./utils/gameUtils";
 import Button from "./components/Button";
 import Modal from "./components/Modal";
+import generateRandomID from "./utils/generateRandomID";
 
 export type Shell = {
     type: string,
@@ -50,10 +51,10 @@ const App = () => {
     const [playerModalStatus, setPlayerModalStatus] = useState<boolean>(false);
     const [phoneModalStatus, setPhoneModalStatus] = useState<boolean>(false);
     const [restartModalStatus, setRestartModalStatus] = useState<boolean>(false);
-    const [livesKey, setLivesKey] = useState<number>(Math.floor(Math.random() * 1000 + 1));
-    const [itemsKey, setItemsKey] = useState<number>(Math.floor(Math.random() * 1000 + 1));
-    const [liveShellsKey, setLiveShellsKey] = useState<number>(Math.floor(Math.random() * 1000 + 1));
-    const [blankShellsKey, setBlankShellsKey] = useState<number>(Math.floor(Math.random() * 1000 + 1));
+    const [livesKey, setLivesKey] = useState<string>(generateRandomID());
+    const [itemsKey, setItemsKey] = useState<string>(generateRandomID());
+    const [liveShellsKey, setLiveShellsKey] = useState<string>(generateRandomID());
+    const [blankShellsKey, setBlankShellsKey] = useState<string>(generateRandomID());
 
     const generateFirstRound = (): void => {
         setRound(1);
@@ -79,10 +80,10 @@ const App = () => {
         setGameStatus(true);
         toggleModal('player-modal');
         // Restart CSS amination
-        setLivesKey(Math.floor(Math.random() * 1000 + 1));
-        setItemsKey(Math.floor(Math.random() * 1000 + 1));
-        setLiveShellsKey(Math.floor(Math.random() * 1000 + 1));
-        setBlankShellsKey(Math.floor(Math.random() * 1000 + 1));
+        setLivesKey(generateRandomID());
+        setItemsKey(generateRandomID());
+        setLiveShellsKey(generateRandomID());
+        setBlankShellsKey(generateRandomID());
     }
 
     const generateNextRound = (): void => {
@@ -105,9 +106,9 @@ const App = () => {
             }
         });
         // Restart CSS amination
-        setItemsKey(Math.floor(Math.random() * 1000 + 1));
-        setLiveShellsKey(Math.floor(Math.random() * 1000 + 1));
-        setBlankShellsKey(Math.floor(Math.random() * 1000 + 1));
+        setItemsKey(generateRandomID());
+        setLiveShellsKey(generateRandomID());
+        setBlankShellsKey(generateRandomID());
     }
 
     const removeShell = (): void => {
