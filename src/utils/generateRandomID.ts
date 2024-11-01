@@ -1,4 +1,7 @@
 const generateRandomID = (idLength: number = 10): string => {
+    if (typeof idLength !== 'number') {
+        idLength = 10;
+    }
     let uid: string = '';
     for (let i = 0; i < idLength; i++) {
         const random: string = Math.random() > 0.5
