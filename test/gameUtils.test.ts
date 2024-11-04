@@ -60,7 +60,7 @@ describe('generateItems', () => {
         expect(generateItems(MIN, MAX, defaultLoadout)).toEqual(MIN);
     });
 
-    it('Should always return a different amount of items from the previous result', () => {
+    it('Should always return a different amount of items from the previous result if previous length is provided', () => {
         const prevItems: number = MIN;
         vi.spyOn(globalThis.Math, 'random').mockReturnValueOnce(0);
         expect(generateItems(MIN, MAX, defaultLoadout, MIN)).not.toEqual(prevItems);
