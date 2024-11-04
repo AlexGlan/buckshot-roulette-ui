@@ -142,3 +142,55 @@ describe('generateShells', () => {
         expect(isShellOrderDifferent).toBe(true);
     });
 });
+
+describe('usePhone', () => {
+    afterEach(() => {
+        vi.restoreAllMocks();
+    });
+
+    const loadout = [
+        { type: 'live', id: '090k5oc5X6' },
+        { type: 'blank', id: '7602n4Ev6S' },
+        { type: 'live', id: 'wH20o2wbnL' },
+        { type: 'live', id: '3cTYFBS934' },
+        { type: 'live', id: '2lTCvi97pI' },
+        { type: 'blank', id: '0X467O59Su' },
+        { type: 'blank', id: '5K90P2y93K' },
+        { type: 'blank', id: '7O27QSyp4B' }
+    ]
+    const shellLocations = [
+        'First',
+        'Second',
+        'Third',
+        'Fourth',
+        'Fifth',
+        'Sixth',
+        'Seventh',
+        'Eigth'
+    ];
+
+    it('Should return a string with type and location of a random shell in a loadout', () => {
+        const phoneResult = usePhone(loadout, shellLocations);
+        expect(phoneResult).toBeTypeOf('string');
+        expect(phoneResult).toMatch(/shell/i);
+        expect(phoneResult).toMatch(/live|blank/i);
+    });
+
+    it('Should return "How Unfortunate" if provided loadout has only one shell', () => {
+        expect(usePhone(loadout.slice(-1), shellLocations)).toMatch(/how unfortunate/i);
+    });
+
+    it('Should return second shell type at the lower bound', () => {
+        vi.spyOn(globalThis.Math, 'random').mockReturnValue(0);
+        const phoneResult = usePhone(loadout, shellLocations);        
+        expect(phoneResult).toMatch(new RegExp(loadout[1].type, 'i'));
+        expect(phoneResult).toMatch(new RegExp(shellLocations[1], 'i'));
+    });
+    
+    it('Should return last shell type at the upper bound', () => {
+        vi.spyOn(globalThis.Math, 'random').mockReturnValue(0.9);
+        const phoneResult = usePhone(loadout, shellLocations);        
+        expect(phoneResult).toMatch(new RegExp(loadout[loadout.length - 1].type, 'i'));
+        expect(phoneResult).toMatch(new RegExp(shellLocations[shellLocations.length - 1], 'i'));
+    });
+});
