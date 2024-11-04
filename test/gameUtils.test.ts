@@ -24,16 +24,12 @@ describe('generateLives', () => {
 
     it('Should return the maximum provided number of lives (inclusive) at the upper bound', () => {
         vi.spyOn(globalThis.Math, 'random').mockReturnValue(0.9);
-        const lives = generateLives(MIN, MAX);
-        expect(lives).toBeTypeOf('number');
-        expect(lives).toEqual(MAX);
+        expect(generateLives(MIN, MAX)).toEqual(MAX);
     });
 
     it('Should return the minimum provided number of lives (inclusive) at the lower bound', () => {
         vi.spyOn(globalThis.Math, 'random').mockReturnValue(0);
-        const lives = generateLives(MIN, MAX);
-        expect(lives).toBeTypeOf('number');
-        expect(lives).toEqual(MIN);
+        expect(generateLives(MIN, MAX)).toEqual(MIN);
     });
 });
 
