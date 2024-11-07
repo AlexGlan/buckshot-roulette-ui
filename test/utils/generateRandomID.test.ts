@@ -1,5 +1,5 @@
 // @vitest-environment node
-import generateRandomID from "../src/utils/generateRandomID";
+import generateRandomID from "../../src/utils/generateRandomID";
 
 describe('generateRandomID', () => {
     it('Should generate unique alphanumeric id of specified length', () => {
