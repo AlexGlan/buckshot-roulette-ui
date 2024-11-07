@@ -174,7 +174,7 @@ const App = () => {
                         <p key={liveShellsKey} className="stats typewriter-animation">{gameObj.liveShells} live rounds</p>
                         <p key={blankShellsKey} className="stats typewriter-animation">{gameObj.blankShells} blanks</p>
                     </div>
-                    <div className="loadout-container">
+                    <div className="loadout-container" data-testid="loadout">
                         {
                             gameObj.loadout.map(shell => (
                                 <span key={shell.id} className={`shell ${shell.type}`}></span>
