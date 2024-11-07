@@ -4,7 +4,7 @@ import {
     generateItems,
     generateShells,
     usePhone
-} from "../src/utils/gameUtils";
+} from "../../src/utils/gameUtils";
 
 describe('generateLives', () => {
     afterEach(() => {
