@@ -67,11 +67,11 @@ describe('App', () => {
         await user.click(screen.getByRole('button'));
         await user.click(screen.getByRole('button', { name: /close/i }));
 
-        let initialShellCount: number = 0;
+        // let initialShellCount: number = 0;
         const removeBtn = screen.getByRole('button', { name: /remove/i });
         const restoreBtn = screen.getByRole('button', { name: /restore/i });
         const loadoutContainer = screen.getByTestId('loadout');
-        initialShellCount = within(loadoutContainer).getAllByText('', { selector: 'span' }).length;
+        const initialShellCount = within(loadoutContainer).getAllByText('', { selector: 'span' }).length;
 
         // Remove shells
         await user.click(removeBtn);
