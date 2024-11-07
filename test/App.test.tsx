@@ -77,7 +77,7 @@ describe('App', () => {
         await user.click(removeBtn);
         expect(within(loadoutContainer).getAllByText('', { selector: 'span' }).length).toEqual(initialShellCount - 1);
         await user.click(removeBtn);
-        expect(within(loadoutContainer).getAllByText('', { selector: 'span' }).length).toEqual(initialShellCount - 2);
+        expect(within(loadoutContainer).queryAllByText('', { selector: 'span' }).length).toEqual(initialShellCount - 2);
         // Restore shells
         await user.click(restoreBtn);
         expect(within(loadoutContainer).getAllByText('', { selector: 'span' }).length).toEqual(initialShellCount - 1);
