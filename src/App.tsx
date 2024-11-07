@@ -182,13 +182,13 @@ const App = () => {
                         }
                     </div>
                     <div className="controls-container">
-                        <Button label="−" handleClick={restoreShell} variant="control" />
+                        <Button label="−" handleClick={restoreShell} variant="control" ariaLabel="Restore shell" />
                         <Button
                             label="Brn Phone"
                             handleClick={() => { toggleModal('phone-modal'); }}
                             variant="standard"
                         />
-                        <Button label="+" handleClick={removeShell} variant="control" />
+                        <Button label="+" handleClick={removeShell} variant="control" ariaLabel="Remove shell" />
                     </div>
                     <Button label="New Round" handleClick={generateNextRound} variant="standard" />
                     <Button
