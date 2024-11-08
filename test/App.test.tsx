@@ -1,6 +1,6 @@
 import { render, screen, within } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
-import App from '../src/App';
+import App from '../src/pages/App';
 
 describe('App', () => {
     beforeEach(() => {
