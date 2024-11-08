@@ -3,6 +3,7 @@ import { generateItems, generateLives, generateShells, usePhone } from "../utils
 import Button from "../components/Button";
 import Modal from "../components/Modal";
 import generateRandomID from "../utils/generateRandomID";
+import NavBar from "../components/NavBar";
 
 export type Shell = {
     type: string,
@@ -203,6 +204,7 @@ const App = () => {
 
     return (
         <>
+            <NavBar />
             <main className="game-content">
                 {content}
             </main>
