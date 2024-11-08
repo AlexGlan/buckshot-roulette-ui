@@ -1,0 +1,20 @@
+@use '../abstracts' as *;
+
+.nav {
+    position: relative;
+    top: 0;
+    width: 100%;
+    padding: .7rem;
+    margin-bottom: 1.5rem;
+
+    &__list {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 1.8rem;
+
+        .active-link {
+            opacity: .7;
+        }
+    }
+}

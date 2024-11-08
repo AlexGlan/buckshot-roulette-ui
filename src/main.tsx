@@ -1,5 +1,8 @@
 import { createRoot } from 'react-dom/client';
-import App from './App.tsx';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import routesConfig from './routes/routesConfig';
 import './styles/main.scss';
 
-createRoot(document.getElementById('root')!).render(<App />);
+const router = createBrowserRouter(routesConfig, { basename: '/buckshot-roulette-ui/' });
+
+createRoot(document.getElementById('root')!).render(<RouterProvider router={router} />);
