@@ -1,6 +1,5 @@
-import { render, screen, within } from '@testing-library/react';
-import { userEvent } from '@testing-library/user-event';
-import Game from '../src/pages/Game';
+import { screen, within } from '@testing-library/react';
+import { renderWithProviders } from './test-utils';
 
 describe('Game', () => {
     beforeEach(() => {
@@ -22,13 +21,12 @@ describe('Game', () => {
     });
 
     it('Should render "Start Game" button on initial render', () => {
-        render(<Game />);
+        renderWithProviders();
         expect(screen.getByRole('button')).toHaveTextContent(/start/i);
     });
 
     it('Should display game state and controls', async () => {
-        render(<Game />);
-        const user = userEvent.setup();
+        const { user } = renderWithProviders();
         await user.click(screen.getByRole('button'));
 
         // Game state display
@@ -48,8 +46,7 @@ describe('Game', () => {
     });
 
     it('Should display a modal showing which player goes first in the first round', async () => {
-        render(<Game />);
-        const user = userEvent.setup();
+        const { user } = renderWithProviders();
 
         // Should show modal
         await user.click(screen.getByRole('button'));
@@ -62,8 +59,7 @@ describe('Game', () => {
     });
 
     it('Should remove or restore shells in the loadout when the respective control buttons are clicked', async () => {
-        render(<Game />);
-        const user = userEvent.setup();
+        const { user } = renderWithProviders();
         await user.click(screen.getByRole('button'));
         await user.click(screen.getByRole('button', { name: /close/i }));
 
@@ -88,8 +84,7 @@ describe('Game', () => {
     });
 
     it('Should display a modal showing random shell location when burner phone button is clicked', async () => {
-        render(<Game />);
-        const user = userEvent.setup();
+        const { user } = renderWithProviders();
         await user.click(screen.getByRole('button'));
         await user.click(screen.getByRole('button', { name: /close/i }));
 
@@ -103,8 +98,7 @@ describe('Game', () => {
     });
 
     it('Should generate and display next game round state after "New Round" button is clicked', async () => {
-        render(<Game />);
-        const user = userEvent.setup();
+        const { user } = renderWithProviders();
         await user.click(screen.getByRole('button'));
         await user.click(screen.getByRole('button', { name: /close/i }));
 
@@ -120,8 +114,7 @@ describe('Game', () => {
     });
 
     it('Should display a restart confirmation modal when restart button is clicked', async () => {
-        render(<Game />);
-        const user = userEvent.setup();
+        const { user } = renderWithProviders();
         await user.click(screen.getByRole('button'));
         await user.click(screen.getByRole('button', { name: /close/i }));
         await user.click(screen.getByRole('button', { name: /round/i }));
