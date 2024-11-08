@@ -1,4 +1,4 @@
-import { Shell } from "../App";
+import { Shell } from "../pages/Game";
 import generateRandomID from "./generateRandomID";
 
 export const generateLives = (min: number, max: number): number => {
