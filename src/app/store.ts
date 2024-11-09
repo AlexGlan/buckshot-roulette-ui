@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import  gameSlice from "./gameSlice";
+import  leaderboardSlice from "./leaderboardSlice";
 
 const rootReducer = combineReducers({
-    'game': gameSlice
+    'game': gameSlice,
+    'leaderboard': leaderboardSlice
 });
 
 export const setupStore = (preloadedState: Partial<RootState> = {}) => {
