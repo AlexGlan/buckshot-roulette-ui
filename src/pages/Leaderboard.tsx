@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { fetchPlayerData } from "../app/leaderboardSlice";
 import NavBar from "../components/NavBar";
 import Button from "../components/Button";
+import { getImageUrl } from "../utils/imageUtils";
 
 const Leaderboard = () => {
     const dispatch = useAppDispatch();
@@ -40,8 +41,11 @@ const Leaderboard = () => {
                         {
                             data.map(player => (
                                 <tr key={player.username}>
-                                    <td>{player.username}</td>
-                                    <td >{player.wins}</td>
+                                    <td>
+                                        <img src={getImageUrl(`${player.username}.jpg`)} alt="Profile picture" />
+                                        {player.username}
+                                    </td>
+                                    <td>{player.wins}</td>
                                     <td>{player.loses}</td>
                                     <td>{player.winRate}</td>
                                     <td>{player.games}</td>
