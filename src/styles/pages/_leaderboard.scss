@@ -30,10 +30,19 @@
     
             & td:nth-child(1) {
                 text-align: left;
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                gap: 1rem;
             }
 
             & td {
                 padding: .4rem;
+
+                & > img {
+                    width: 2.5rem;
+                    filter: sepia(0.6) brightness(.9) saturate(1.7) hue-rotate(12deg);
+                }
             }
     
         }
