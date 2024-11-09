@@ -1,0 +1,70 @@
+@use '../abstracts' as *;
+
+.leaderboard-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    min-height: 50svh;
+
+    table {
+        border-collapse: collapse;
+        width: 85%;
+        max-width: 45rem;
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        margin-bottom: 2.5rem;
+    
+        thead {
+            border-bottom: 3px dotted $clr-light-gray;
+            
+            & th {
+                padding: .3rem .5rem .6rem .5rem;
+            }
+        }
+    
+        tbody {
+            text-align: center;
+            border-bottom: 3px dotted $clr-light-gray;
+    
+            & td:nth-child(1) {
+                text-align: left;
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                gap: 1rem;
+            }
+
+            & td {
+                padding: .4rem;
+
+                & > img {
+                    width: 2.5rem;
+                    filter: sepia(0.6) brightness(.9) saturate(1.7) hue-rotate(12deg);
+                }
+            }
+    
+        }
+    
+        tfoot {
+            text-align: center;
+    
+            & th {
+                padding: .3rem;
+                text-align: right;
+            }
+        }
+    }
+
+    .loading {
+        font-size: 2rem;
+        text-transform: uppercase;
+    }
+
+    .error-msg {
+        font-size: 2rem;
+        text-transform: uppercase;
+        text-align: center;
+    }
+}
