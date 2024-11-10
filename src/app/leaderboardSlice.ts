@@ -41,7 +41,9 @@ export const fetchPlayerData = createAsyncThunk<Player[], string | undefined, { 
                 loses:row.c[2].v,
                 winRate: row.c[3].f,
                 games: row.c[4].v
-            }));
+            }))
+                // @ts-ignore
+                .sort((a, b) => Number(b.winRate.replace('%', '')) - Number(a.winRate.replace('%', '')));
         } else {
             return rejectWithValue(`Unable to fetch player data`);
         }
