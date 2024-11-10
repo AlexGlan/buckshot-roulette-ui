@@ -66,6 +66,13 @@ const Leaderboard = () => {
                     handleClick={() => dispatch(fetchPlayerData())}
                     variant="standard"
                 />
+                <a
+                    href="https://docs.google.com/spreadsheets/d/1L0RK2EZM-F2cwKtn5MIOknuWHDABKbvKpelFj9a3oQs/edit?usp=sharing"
+                    target="_blank"
+                    className="leaderboard__link"
+                >
+                    Link
+                </a>
             </main>
         </>
     )
