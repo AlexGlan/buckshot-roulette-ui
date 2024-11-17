@@ -136,4 +136,26 @@ describe('Game', () => {
         expect(screen.getByText(/round 1/i)).toBeInTheDocument();
         expect(screen.getByText(/first/i)).toBeInTheDocument();
     });
+
+    it('Should preserve the game state across route changes', async () => {
+        const { user } = renderWithProviders();
+        await user.click(screen.getByRole('button'));
+        await user.click(screen.getByRole('button', { name: /close/i }));
+        await user.click(screen.getByRole('button', { name: /round/i }));
+
+        const currentRound: string = screen.getByText(/round \d+/i).textContent!;
+        const currentLives: string = screen.getByText(/\d+.*lives/i).textContent!;
+        const currentItems: string = screen.getByText(/\d+.*items/i).textContent!;
+        const currentLiveRounds: string = screen.getByText(/\d+.*live .*/i).textContent!;
+        const currentBlankRounds: string = screen.getByText(/\d+.*blank/i).textContent!;
+
+        await user.click(screen.getByRole('link', { name: /board/i }));
+        await user.click(screen.getByRole('link', { name: /game|play/i }));
+
+        expect(screen.getByText(/round \d+/i).textContent).toMatch(currentRound)
+        expect(screen.getByText(/\d+.*lives/i).textContent).toMatch(currentLives);
+        expect(screen.getByText(/\d+.*items/i).textContent).toMatch(currentItems);
+        expect(screen.getByText(/\d+.*live .*/i).textContent).toMatch(currentLiveRounds);
+        expect(screen.getByText(/\d+.*blank/i).textContent).toMatch(currentBlankRounds);
+    });
 });
