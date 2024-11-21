@@ -42,7 +42,7 @@ const Leaderboard = () => {
                             data.map(player => (
                                 <tr key={player.username}>
                                     <td>
-                                        <img src={getImageUrl(`${player.username}.jpg`)} alt="Profile picture" />
+                                        <img src={getImageUrl(`${player.username.toLowerCase()}.jpg`)} alt="Profile picture" />
                                         {player.username}
                                     </td>
                                     <td>{player.wins}</td>
