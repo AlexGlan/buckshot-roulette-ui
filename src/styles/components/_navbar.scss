@@ -13,8 +13,12 @@
         justify-content: center;
         gap: 1.8rem;
 
-        .active-link {
+        & > li > a {
             opacity: .7;
+        }
+
+        .active-link {
+            opacity: 1;
         }
     }
 }
