@@ -26,7 +26,7 @@ describe('Game', () => {
         expect(screen.getByRole('button', { name: /multiplayer/i })).toBeEnabled();
     });
 
-    it('Should display game state and controls', async () => {
+    it('Should display correct regular game mode state and controls', async () => {
         const { user } = renderWithProviders();
         await user.click(screen.getByRole('button', { name: /vanilla/i }));
 
@@ -46,7 +46,27 @@ describe('Game', () => {
         expect(screen.getByRole('button', { name: /restart/i })).toBeInTheDocument();
     });
 
-    it('Should display a modal showing which player goes first in the first round', async () => {
+    it('Should display correct multiplayer game mode state and controls', async () => {
+        const { user } = renderWithProviders();
+        await user.click(screen.getByRole('button', { name: /multiplayer/i }));
+
+        // Game state display
+        expect(screen.getByText(/round \d+/i)).toBeInTheDocument();
+        expect(screen.getByText(/\d+.*lives/i)).toBeInTheDocument();
+        expect(screen.getByText(/\d+.*items/i)).toBeInTheDocument();
+        expect(screen.getByText(/\d+.*live .*/i)).toBeInTheDocument();
+        expect(screen.getByText(/\d+.*blank/i)).toBeInTheDocument();
+        // Loadout display
+        expect(within(screen.getByTestId('loadout')).getAllByText('', { selector: 'span' }));
+        // Buttons for gameplay
+        expect(screen.getByRole('button', { name: /restore/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /remove/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /phone/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /round/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /restart/i })).toBeInTheDocument();
+    });
+
+    it('Should display a modal showing which player goes first in the first round of a regular game', async () => {
         const { user } = renderWithProviders();
 
         // Should show modal
@@ -56,6 +76,12 @@ describe('Game', () => {
         expect(screen.getByText(/first/i)).toBeInTheDocument();
         // Should close modal
         await user.click(screen.getByRole('button', { name: /close/i }));
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+
+    it('Should not display any modals and first player in the first round of a multiplayer game', async () => {
+        const { user } = renderWithProviders();
+        await user.click(screen.getByRole('button', { name: /multiplayer/i }));
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
@@ -134,8 +160,10 @@ describe('Game', () => {
         // Clicking "Yes" should return to game mode selection screen
         await user.click(restartBtn);
         await user.click(screen.getByRole('button', { name: /yes/i }));
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
         expect(screen.getByRole('button', { name: /vanilla/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /multiplayer/i })).toBeInTheDocument();
+        expect(screen.queryByText(/round [0-9]+/i)).not.toBeInTheDocument();
     });
 
     it('Should preserve the game state across route changes', async () => {
