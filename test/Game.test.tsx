@@ -31,7 +31,7 @@ describe('Game', () => {
         await user.click(screen.getByRole('button', { name: /vanilla/i }));
 
         // Game state display
-        expect(screen.getByText(/round \d+/i)).toBeInTheDocument();
+        expect(screen.getByText(/loadout \d+/i)).toBeInTheDocument();
         expect(screen.getByText(/\d+.*lives/i)).toBeInTheDocument();
         expect(screen.getByText(/\d+.*items/i)).toBeInTheDocument();
         expect(screen.getByText(/\d+.*live .*/i)).toBeInTheDocument();
@@ -42,8 +42,8 @@ describe('Game', () => {
         expect(screen.getByRole('button', { name: /restore/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /remove/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /phone/i })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /round/i })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /restart/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /loadout/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /game/i })).toBeInTheDocument();
     });
 
     it('Should display correct multiplayer game mode state and controls', async () => {
@@ -51,7 +51,7 @@ describe('Game', () => {
         await user.click(screen.getByRole('button', { name: /multiplayer/i }));
 
         // Game state display
-        expect(screen.getByText(/round \d+/i)).toBeInTheDocument();
+        expect(screen.getByText(/loadout \d+/i)).toBeInTheDocument();
         expect(screen.getByText(/\d+.*lives/i)).toBeInTheDocument();
         expect(screen.getByText(/\d+.*items/i)).toBeInTheDocument();
         expect(screen.getByText(/\d+.*live .*/i)).toBeInTheDocument();
@@ -62,16 +62,16 @@ describe('Game', () => {
         expect(screen.getByRole('button', { name: /restore/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /remove/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /phone/i })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /round/i })).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /restart/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /loadout/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /game/i })).toBeInTheDocument();
     });
 
-    it('Should display a modal showing which player goes first in the first round of a regular game', async () => {
+    it('Should display a modal showing which player goes first in the first loadout of a regular game', async () => {
         const { user } = renderWithProviders();
 
         // Should show modal
         await user.click(screen.getByRole('button', { name: /vanilla/i }));
-        expect(screen.getByText(/round 1/i)).toBeInTheDocument();
+        expect(screen.getByText(/loadout 1/i)).toBeInTheDocument();
         expect(screen.getByRole('dialog')).toBeVisible();
         expect(screen.getByText(/first/i)).toBeInTheDocument();
         // Should close modal
@@ -79,7 +79,7 @@ describe('Game', () => {
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
-    it('Should not display any modals and first player in the first round of a multiplayer game', async () => {
+    it('Should not display any modals and first player in the first loadout of a multiplayer game', async () => {
         const { user } = renderWithProviders();
         await user.click(screen.getByRole('button', { name: /multiplayer/i }));
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
@@ -118,20 +118,20 @@ describe('Game', () => {
         // Should show modal
         await user.click(screen.getByRole('button', { name: /phone/i }));
         expect(screen.getByRole('dialog')).toBeVisible();
-        expect(screen.getByText(/shell.*round/i)).toBeInTheDocument();
+        expect(screen.getByText(/.*shell.*live|blank$/i)).toBeInTheDocument();
         // Should close modal
         await user.click(screen.getByRole('button', { name: /close/i }));
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
-    it('Should generate and display next game round state after "New Round" button is clicked', async () => {
+    it('Should generate and display next game loadout state after "New Loadout" button is clicked', async () => {
         const { user } = renderWithProviders();
         await user.click(screen.getByRole('button', { name: /vanilla/i }));
         await user.click(screen.getByRole('button', { name: /close/i }));
 
-        expect(screen.getByText(/round 1/i)).toBeInTheDocument();
-        await user.click(screen.getByRole('button', { name: /round/i }));
-        expect(screen.getByText(/round 2/i)).toBeInTheDocument();
+        expect(screen.getByText(/loadout 1/i)).toBeInTheDocument();
+        await user.click(screen.getByRole('button', { name: /loadout/i }));
+        expect(screen.getByText(/loadout 2/i)).toBeInTheDocument();
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
         expect(screen.getByText(/\d+.*lives/i)).toBeInTheDocument();
         expect(screen.getByText(/\d+.*items/i)).toBeInTheDocument();
@@ -140,14 +140,14 @@ describe('Game', () => {
         expect(within(screen.getByTestId('loadout')).getAllByText('', { selector: 'span' }));
     });
 
-    it('Should display a restart confirmation modal when restart button is clicked', async () => {
+    it('Should display a new game confirmation modal when "New Game" button is clicked', async () => {
         const { user } = renderWithProviders();
         await user.click(screen.getByRole('button', { name: /vanilla/i }));
         await user.click(screen.getByRole('button', { name: /close/i }));
-        await user.click(screen.getByRole('button', { name: /round/i }));
+        await user.click(screen.getByRole('button', { name: /loadout/i }));
 
-        const restartBtn = screen.getByRole('button', { name: /restart/i });
-        await user.click(restartBtn);
+        const newGameBtn = screen.getByRole('button', { name: /game/i });
+        await user.click(newGameBtn);
         // Should show confirmation modal
         expect(screen.getByRole('dialog')).toBeVisible();
         expect(screen.getByText(/are you sure/i));
@@ -155,24 +155,24 @@ describe('Game', () => {
         expect(screen.getByRole('button', { name: /no/i }));
         // Clicking "No" should not make any changes in game state and close the modal
         await user.click(screen.getByRole('button', { name: /no/i }));
-        expect(screen.getByText(/round 2/i)).toBeInTheDocument();
+        expect(screen.getByText(/loadout 2/i)).toBeInTheDocument();
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
         // Clicking "Yes" should return to game mode selection screen
-        await user.click(restartBtn);
+        await user.click(newGameBtn);
         await user.click(screen.getByRole('button', { name: /yes/i }));
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
         expect(screen.getByRole('button', { name: /vanilla/i })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: /multiplayer/i })).toBeInTheDocument();
-        expect(screen.queryByText(/round [0-9]+/i)).not.toBeInTheDocument();
+        expect(screen.queryByText(/loadout \d+/i)).not.toBeInTheDocument();
     });
 
     it('Should preserve the game state across route changes', async () => {
         const { user } = renderWithProviders();
         await user.click(screen.getByRole('button', { name: /vanilla/i }));
         await user.click(screen.getByRole('button', { name: /close/i }));
-        await user.click(screen.getByRole('button', { name: /round/i }));
+        await user.click(screen.getByRole('button', { name: /loadout/i }));
 
-        const currentRound: string = screen.getByText(/round \d+/i).textContent!;
+        const currentLoadout: string = screen.getByText(/loadout \d+/i).textContent!;
         const currentLives: string = screen.getByText(/\d+.*lives/i).textContent!;
         const currentItems: string = screen.getByText(/\d+.*items/i).textContent!;
         const currentLiveRounds: string = screen.getByText(/\d+.*live .*/i).textContent!;
@@ -181,7 +181,7 @@ describe('Game', () => {
         await user.click(screen.getByRole('link', { name: /board/i }));
         await user.click(screen.getByRole('link', { name: /game|play/i }));
 
-        expect(screen.getByText(/round \d+/i).textContent).toMatch(currentRound)
+        expect(screen.getByText(/loadout \d+/i).textContent).toMatch(currentLoadout)
         expect(screen.getByText(/\d+.*lives/i).textContent).toMatch(currentLives);
         expect(screen.getByText(/\d+.*items/i).textContent).toMatch(currentItems);
         expect(screen.getByText(/\d+.*live .*/i).textContent).toMatch(currentLiveRounds);
