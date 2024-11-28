@@ -154,7 +154,7 @@ const App = () => {
     } else {
         content = (
             <>
-                <h1>Round {round}</h1>
+                <h1>Loadout {round}</h1>
                 <div className="container">
                     <div className="outputs">
                         <p key={livesKey} className="stats typewriter-animation">{lives} lives</p>
@@ -180,9 +180,9 @@ const App = () => {
                         />
                         <Button label="+" handleClick={removeShell} variant="control" ariaLabel="Remove shell" />
                     </div>
-                    <Button label="New Round" handleClick={generateNextRound} variant="standard" />
+                    <Button label="New Loadout" handleClick={generateNextRound} variant="standard" />
                     <Button
-                        label="Restart"
+                        label="New Game"
                         handleClick={() => { toggleModal('restart-modal'); }}
                         variant="standard"
                     />
