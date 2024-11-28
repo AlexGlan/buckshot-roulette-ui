@@ -5,6 +5,10 @@
     width: 100%;
     min-height: 70svh;
 
+    .game-modes {
+        @include flex-center;
+    }
+
     .container {
         @include flex-center;
         width: 85%;
