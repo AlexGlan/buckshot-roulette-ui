@@ -20,14 +20,15 @@ describe('Game', () => {
         vi.resetAllMocks();
     });
 
-    it('Should render "Start Game" button on initial render', () => {
+    it('Should render game mode selection buttons on initial render', () => {
         renderWithProviders();
-        expect(screen.getByRole('button')).toHaveTextContent(/start/i);
+        expect(screen.getByRole('button', { name: /vanilla/i })).toBeEnabled();
+        expect(screen.getByRole('button', { name: /multiplayer/i })).toBeEnabled();
     });
 
     it('Should display game state and controls', async () => {
         const { user } = renderWithProviders();
-        await user.click(screen.getByRole('button'));
+        await user.click(screen.getByRole('button', { name: /vanilla/i }));
 
         // Game state display
         expect(screen.getByText(/round \d+/i)).toBeInTheDocument();
@@ -49,7 +50,7 @@ describe('Game', () => {
         const { user } = renderWithProviders();
 
         // Should show modal
-        await user.click(screen.getByRole('button'));
+        await user.click(screen.getByRole('button', { name: /vanilla/i }));
         expect(screen.getByText(/round 1/i)).toBeInTheDocument();
         expect(screen.getByRole('dialog')).toBeVisible();
         expect(screen.getByText(/first/i)).toBeInTheDocument();
@@ -60,7 +61,7 @@ describe('Game', () => {
 
     it('Should remove or restore shells in the loadout when the respective control buttons are clicked', async () => {
         const { user } = renderWithProviders();
-        await user.click(screen.getByRole('button'));
+        await user.click(screen.getByRole('button', { name: /vanilla/i }));
         await user.click(screen.getByRole('button', { name: /close/i }));
 
         const removeBtn = screen.getByRole('button', { name: /remove/i });
@@ -85,7 +86,7 @@ describe('Game', () => {
 
     it('Should display a modal showing random shell location when burner phone button is clicked', async () => {
         const { user } = renderWithProviders();
-        await user.click(screen.getByRole('button'));
+        await user.click(screen.getByRole('button', { name: /vanilla/i }));
         await user.click(screen.getByRole('button', { name: /close/i }));
 
         // Should show modal
@@ -99,7 +100,7 @@ describe('Game', () => {
 
     it('Should generate and display next game round state after "New Round" button is clicked', async () => {
         const { user } = renderWithProviders();
-        await user.click(screen.getByRole('button'));
+        await user.click(screen.getByRole('button', { name: /vanilla/i }));
         await user.click(screen.getByRole('button', { name: /close/i }));
 
         expect(screen.getByText(/round 1/i)).toBeInTheDocument();
@@ -115,7 +116,7 @@ describe('Game', () => {
 
     it('Should display a restart confirmation modal when restart button is clicked', async () => {
         const { user } = renderWithProviders();
-        await user.click(screen.getByRole('button'));
+        await user.click(screen.getByRole('button', { name: /vanilla/i }));
         await user.click(screen.getByRole('button', { name: /close/i }));
         await user.click(screen.getByRole('button', { name: /round/i }));
 
@@ -130,16 +131,16 @@ describe('Game', () => {
         await user.click(screen.getByRole('button', { name: /no/i }));
         expect(screen.getByText(/round 2/i)).toBeInTheDocument();
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
-        // Clicking "Yes" should reset the game state to the first round
+        // Clicking "Yes" should return to game mode selection screen
         await user.click(restartBtn);
         await user.click(screen.getByRole('button', { name: /yes/i }));
-        expect(screen.getByText(/round 1/i)).toBeInTheDocument();
-        expect(screen.getByText(/first/i)).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /vanilla/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /multiplayer/i })).toBeInTheDocument();
     });
 
     it('Should preserve the game state across route changes', async () => {
         const { user } = renderWithProviders();
-        await user.click(screen.getByRole('button'));
+        await user.click(screen.getByRole('button', { name: /vanilla/i }));
         await user.click(screen.getByRole('button', { name: /close/i }));
         await user.click(screen.getByRole('button', { name: /round/i }));
 

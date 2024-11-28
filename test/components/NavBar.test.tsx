@@ -16,6 +16,7 @@ describe('NavBar', () => {
         expect(screen.getByRole('button', { name: /refresh/i })).toBeInTheDocument();
         // Go to gameplay page
         await user.click(screen.getByRole('link', { name: /game|play/i }));
-        expect(screen.getByRole('button', { name: /start/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /vanilla/i })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /multiplayer/i })).toBeInTheDocument();
     });
 });
