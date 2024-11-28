@@ -7,7 +7,7 @@ interface Player {
     wins: number,
     loses: number,
     winRate: string,
-    games: number
+    multiplayerPts: number
 }
 
 interface LeaderboardState {
@@ -40,10 +40,10 @@ export const fetchPlayerData = createAsyncThunk<Player[], string | undefined, { 
                 wins: row.c[1].v,
                 loses:row.c[2].v,
                 winRate: row.c[3].f,
-                games: row.c[4].v
+                multiplayerPts: row.c[4].v
             }))
                 // @ts-ignore
-                .sort((a, b) => Number(b.winRate.replace('%', '')) - Number(a.winRate.replace('%', '')));
+                .sort((a, b) => Number(b.multiplayerPts) - Number(a.multiplayerPts));
         } else {
             return rejectWithValue(`Unable to fetch player data`);
         }

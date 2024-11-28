@@ -10,7 +10,6 @@ const Leaderboard = () => {
     const status = useAppSelector(state => state.leaderboard.requestStatus);
     const error = useAppSelector(state => state.leaderboard.errorMessage);
     const data = useAppSelector(state => state.leaderboard.playerData);
-    const totalGames: number = data.reduce((acc, curr) => acc + curr.games, 0);
 
     useEffect(() => {
         if (status !== 'idle' && data.length > 0) {
@@ -34,7 +33,7 @@ const Leaderboard = () => {
                             <th scope="col">W</th>
                             <th scope="col">L</th>
                             <th scope="col">%</th>
-                            <th scope="col">Rounds</th>
+                            <th scope="col">Pts</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,17 +47,11 @@ const Leaderboard = () => {
                                     <td>{player.wins}</td>
                                     <td>{player.loses}</td>
                                     <td>{player.winRate}</td>
-                                    <td>{player.games}</td>
+                                    <td>{player.multiplayerPts}</td>
                                 </tr>
                             ))
                         }
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th scope="row" colSpan={4}>Total</th>
-                            <td>{totalGames}</td>
-                        </tr>
-                    </tfoot>
                 </table>
                 }
                 <Button
