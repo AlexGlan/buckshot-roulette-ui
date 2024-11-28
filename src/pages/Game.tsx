@@ -47,10 +47,16 @@ const App = () => {
     const [liveShellsKey, setLiveShellsKey] = useState<string>(generateRandomID());
     const [blankShellsKey, setBlankShellsKey] = useState<string>(generateRandomID());
 
-    const generateFirstRound = (): void => {
+    const generateFirstRound = (gameMode: 'vanilla' | 'multiplayer'): void => {
+        dispatch(setGameStatus(true));
         dispatch(setRound(1));
-        dispatch(setLives(generateLives(MIN_LIVES, MAX_LIVES)));
-        dispatch(setFirstPlayer(Math.random() > 0.5 ? PLAYER_ONE_NAME : PLAYER_TWO_NAME));
+        if (gameMode === 'vanilla') {
+            dispatch(setLives(generateLives(MIN_LIVES, MAX_LIVES)));
+            dispatch(setFirstPlayer(Math.random() > 0.5 ? PLAYER_ONE_NAME : PLAYER_TWO_NAME));
+            toggleModal('player-modal');
+        } else {
+            dispatch(setLives(4));
+        }
 
         const startLoadout: Shell[] = generateShells(MIN_SHELLS, MAX_SHELLS)
         const startItems: number = generateItems(MIN_ITEMS, MAX_ITEMS, startLoadout.length);
@@ -66,8 +72,6 @@ const App = () => {
             blankShells
         }));
         
-        dispatch(setGameStatus(true));
-        toggleModal('player-modal');
         // Restart CSS amination
         setLivesKey(generateRandomID());
         setItemsKey(generateRandomID());
@@ -141,7 +145,11 @@ const App = () => {
 
     if (!isGameStarted) {
         content = (
-            <Button label="Start Game" handleClick={generateFirstRound} variant="start" />
+            <div className="game-modes">
+                <Button label="Vanilla" handleClick={() => { generateFirstRound('vanilla'); }} variant="start" />
+                <Button label="Multiplayer" handleClick={() => { generateFirstRound('multiplayer'); }} variant="start" />
+            </div>
+            
         );
     } else {
         content = (
@@ -227,7 +235,7 @@ const App = () => {
                         label="Yes"
                         handleClick={() => {
                             toggleModal('restart-modal');
-                            generateFirstRound();
+                            dispatch(setGameStatus(false));
                         }}
                         variant="standard"
                     />
