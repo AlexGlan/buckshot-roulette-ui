@@ -66,7 +66,7 @@ export const usePhone = (loadout: Shell[], shellLocations: string[]): string => 
         const randomVal: number = Math.floor(Math.random() * (loadout.length - 1)) + 1;
         const revealShell: Shell = loadout[randomVal];
         const revealLocation: string = shellLocations[randomVal];
-        return `${revealLocation} shell ${revealShell.type} round`;
+        return `${revealLocation} remaining shell... ${revealShell.type}`;
     } else {
         return 'How Unfortunate';
     } 
