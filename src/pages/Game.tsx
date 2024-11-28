@@ -5,7 +5,7 @@ import Modal from "../components/Modal";
 import generateRandomID from "../utils/generateRandomID";
 import NavBar from "../components/NavBar";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { setFirstPlayer, setGameObj, setGameStatus, setLives, setRound } from "../app/gameSlice";
+import { setFirstPlayer, setGameObj, setGameStatus, setLives, setCurrLoadout } from "../app/gameSlice";
 
 export type Shell = {
     type: string,
@@ -35,21 +35,21 @@ const App = () => {
     const dispatch = useAppDispatch();
     const isGameStarted = useAppSelector(state => state.game.isGameStarted);
     const firstPlayer = useAppSelector(state => state.game.firstPlayer);
-    const round = useAppSelector(state => state.game.round);
+    const currLoadout = useAppSelector(state => state.game.currLoadout);
     const lives = useAppSelector(state => state.game.lives);
     const gameObj = useAppSelector(state => state.game.gameObj);
 
     const [playerModalStatus, setPlayerModalStatus] = useState<boolean>(false);
     const [phoneModalStatus, setPhoneModalStatus] = useState<boolean>(false);
-    const [restartModalStatus, setRestartModalStatus] = useState<boolean>(false);
+    const [newGameModalStatus, setNewGameModalStatus] = useState<boolean>(false);
     const [livesKey, setLivesKey] = useState<string>(generateRandomID());
     const [itemsKey, setItemsKey] = useState<string>(generateRandomID());
     const [liveShellsKey, setLiveShellsKey] = useState<string>(generateRandomID());
     const [blankShellsKey, setBlankShellsKey] = useState<string>(generateRandomID());
 
-    const generateFirstRound = (gameMode: 'vanilla' | 'multiplayer'): void => {
+    const generateFirstLoadout = (gameMode: 'vanilla' | 'multiplayer'): void => {
         dispatch(setGameStatus(true));
-        dispatch(setRound(1));
+        dispatch(setCurrLoadout(1));
         if (gameMode === 'vanilla') {
             dispatch(setLives(generateLives(MIN_LIVES, MAX_LIVES)));
             dispatch(setFirstPlayer(Math.random() > 0.5 ? PLAYER_ONE_NAME : PLAYER_TWO_NAME));
@@ -67,7 +67,7 @@ const App = () => {
         dispatch(setGameObj({
             ...gameObj,
             items: startItems,
-            loadout: startLoadout,
+            shellLoadout: startLoadout,
             liveShells,
             blankShells
         }));
@@ -79,9 +79,9 @@ const App = () => {
         setBlankShellsKey(generateRandomID());
     }
 
-    const generateNextRound = (): void => {
-        dispatch(setRound());
-        const newLoadout: Shell[] = generateShells(MIN_SHELLS, MAX_SHELLS, gameObj.loadout.length);
+    const generateNextLoadout = (): void => {
+        dispatch(setCurrLoadout());
+        const newLoadout: Shell[] = generateShells(MIN_SHELLS, MAX_SHELLS, gameObj.shellLoadout.length);
         const newItems: number = generateItems(MIN_ITEMS, MAX_ITEMS, newLoadout.length, gameObj.items);
         const liveShells: number = newLoadout.reduce((acc, curr) => {
             return curr.type === 'live' ? acc += 1 : acc
@@ -90,7 +90,7 @@ const App = () => {
         dispatch(setGameObj({
             ...gameObj,
             items: newItems,
-            loadout: newLoadout,
+            shellLoadout: newLoadout,
             usedShells: [],
             liveShells,
             blankShells
@@ -102,14 +102,14 @@ const App = () => {
     }
 
     const removeShell = (): void => {
-        if (gameObj.loadout.length === 0) {
+        if (gameObj.shellLoadout.length === 0) {
             return;
         }
         // Remove current shell from a loudout
         dispatch(setGameObj({
             ...gameObj,
-            loadout: [...gameObj.loadout.slice(1)],
-            usedShells: [...gameObj.usedShells, gameObj.loadout[0]]
+            shellLoadout: [...gameObj.shellLoadout.slice(1)],
+            usedShells: [...gameObj.usedShells, gameObj.shellLoadout[0]]
         }))
     }
 
@@ -120,7 +120,7 @@ const App = () => {
         // Put last removed shell back into loadout
         dispatch(setGameObj({
             ...gameObj,
-            loadout: [...gameObj.usedShells.slice(-1), ...gameObj.loadout],
+            shellLoadout: [...gameObj.usedShells.slice(-1), ...gameObj.shellLoadout],
             usedShells: [...gameObj.usedShells.slice(0, -1)] 
         }))
     }
@@ -133,8 +133,8 @@ const App = () => {
             case 'phone-modal':
                 setPhoneModalStatus(prevStatus => !prevStatus);
                 break;
-            case 'restart-modal':
-                setRestartModalStatus(prevStatus => !prevStatus);
+            case 'new-game-modal':
+                setNewGameModalStatus(prevStatus => !prevStatus);
                 break;
             default:
                 break;
@@ -146,15 +146,15 @@ const App = () => {
     if (!isGameStarted) {
         content = (
             <div className="game-modes">
-                <Button label="Vanilla" handleClick={() => { generateFirstRound('vanilla'); }} variant="start" />
-                <Button label="Multiplayer" handleClick={() => { generateFirstRound('multiplayer'); }} variant="start" />
+                <Button label="Vanilla" handleClick={() => { generateFirstLoadout('vanilla'); }} variant="start" />
+                <Button label="Multiplayer" handleClick={() => { generateFirstLoadout('multiplayer'); }} variant="start" />
             </div>
             
         );
     } else {
         content = (
             <>
-                <h1>Round {round}</h1>
+                <h1>Loadout {currLoadout}</h1>
                 <div className="container">
                     <div className="outputs">
                         <p key={livesKey} className="stats typewriter-animation">{lives} lives</p>
@@ -166,7 +166,7 @@ const App = () => {
                     </div>
                     <div className="loadout-container" data-testid="loadout">
                         {
-                            gameObj.loadout.map(shell => (
+                            gameObj.shellLoadout.map(shell => (
                                 <span key={shell.id} className={`shell ${shell.type}`}></span>
                             ))
                         }
@@ -180,10 +180,10 @@ const App = () => {
                         />
                         <Button label="+" handleClick={removeShell} variant="control" ariaLabel="Remove shell" />
                     </div>
-                    <Button label="New Round" handleClick={generateNextRound} variant="standard" />
+                    <Button label="New Loadout" handleClick={generateNextLoadout} variant="standard" />
                     <Button
-                        label="Restart"
-                        handleClick={() => { toggleModal('restart-modal'); }}
+                        label="New Game"
+                        handleClick={() => { toggleModal('new-game-modal'); }}
                         variant="standard"
                     />
                 </div>
@@ -216,7 +216,7 @@ const App = () => {
                 modalStatus={phoneModalStatus}
                 children={(
                 <>
-                    <p className="typewriter-animation-modal">{usePhone(gameObj.loadout, SHELL_LOCATIONS)}</p>
+                    <p className="typewriter-animation-modal">{usePhone(gameObj.shellLoadout, SHELL_LOCATIONS)}</p>
                     <Button
                         label="Close"
                         handleClick={() => { toggleModal('phone-modal'); }}
@@ -226,22 +226,22 @@ const App = () => {
                 )}
             />
             <Modal
-                id="restart-modal"
-                modalStatus={restartModalStatus}
+                id="new-game-modal"
+                modalStatus={newGameModalStatus}
                 children={(
                 <>
                     <p className="typewriter-animation-modal">Are you sure?</p>
                     <Button
                         label="Yes"
                         handleClick={() => {
-                            toggleModal('restart-modal');
+                            toggleModal('new-game-modal');
                             dispatch(setGameStatus(false));
                         }}
                         variant="standard"
                     />
                     <Button
                         label="No"
-                        handleClick={() => { toggleModal('restart-modal'); }}
+                        handleClick={() => { toggleModal('new-game-modal'); }}
                         variant="standard"
                     />
                 </>

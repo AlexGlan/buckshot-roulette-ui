@@ -3,7 +3,7 @@ import { Shell } from '../pages/Game';
 
 interface GameObj {
     items: number,
-    loadout: Shell[],
+    shellLoadout: Shell[],
     liveShells: number,
     blankShells: number,
     usedShells: Shell[]
@@ -12,7 +12,7 @@ interface GameObj {
 interface GameState {
     isGameStarted: boolean,
     firstPlayer: string | null,
-    round: number,
+    currLoadout: number,
     lives: number,
     gameObj: GameObj
 }
@@ -20,11 +20,11 @@ interface GameState {
 const initialState: GameState = {
     isGameStarted: false,
     firstPlayer: null,
-    round: 1,
+    currLoadout: 1,
     lives: 0,
     gameObj: {
         items: 0,
-        loadout: [],
+        shellLoadout: [],
         liveShells: 0,
         blankShells: 0,
         usedShells: []
@@ -38,11 +38,11 @@ export const gameSlice = createSlice({
         setGameStatus: (state, action: PayloadAction<boolean>) => {
             state.isGameStarted = action.payload;
         },
-        setRound: (state, action: PayloadAction<number | undefined>) => {
+        setCurrLoadout: (state, action: PayloadAction<number | undefined>) => {
             if (action.payload != null) {
-                state.round = action.payload;
+                state.currLoadout = action.payload;
             } else {
-                state.round = state.round += 1;
+                state.currLoadout = state.currLoadout += 1;
             }
         },
         setFirstPlayer: (state, action: PayloadAction<string>) => {
@@ -60,7 +60,7 @@ export const gameSlice = createSlice({
 export default gameSlice.reducer;
 export const {
     setGameStatus,
-    setRound,
+    setCurrLoadout,
     setFirstPlayer,
     setLives,
     setGameObj
