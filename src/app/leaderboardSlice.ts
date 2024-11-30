@@ -29,23 +29,28 @@ export const fetchPlayerData = createAsyncThunk<Player[], string | undefined, { 
         const sheetName = 'Scores';
         const sheetUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?=out&sheet=${sheetName}`;
 
-        const res = await fetch(sheetUrl);
-        const data = await res.text();
-        const jsonData = JSON.parse(data.substring(47).slice(0, -2));
+        try {
+            const res = await fetch(sheetUrl);
+            const data = await res.text();
+            const jsonData = JSON.parse(data.substring(47).slice(0, -2));
 
-        if (jsonData.status === 'ok') {
-            // @ts-ignore
-            return jsonData.table.rows.map(row => ({
-                username: row.c[0].v,
-                wins: row.c[1].v,
-                loses:row.c[2].v,
-                winRate: row.c[3].f,
-                multiplayerPts: row.c[4].v
-            }))
+            if (jsonData.status === 'ok') {
                 // @ts-ignore
-                .sort((a, b) => Number(b.multiplayerPts) - Number(a.multiplayerPts));
-        } else {
-            return rejectWithValue(`Unable to fetch player data`);
+                return jsonData.table.rows.map(row => ({
+                    username: row.c[0].v,
+                    wins: row.c[1].v,
+                    loses:row.c[2].v,
+                    winRate: row.c[3].f,
+                    multiplayerPts: row.c[4].v
+                }))
+                    // @ts-ignore
+                    .sort((a, b) => Number(b.multiplayerPts) - Number(a.multiplayerPts));
+            } else {
+                return rejectWithValue(`Unable to fetch player data`);
+            }
+        } catch (error) {
+            console.error(error);
+            return rejectWithValue(String(error));
         }
     }
 );
