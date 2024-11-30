@@ -38,18 +38,25 @@ const Leaderboard = () => {
                     </thead>
                     <tbody>
                         {
-                            data.map(player => (
-                                <tr key={player.username}>
-                                    <td>
-                                        <img src={getImageUrl(`${player.username.toLowerCase()}.jpg`)} alt="Profile picture" />
-                                        {player.username}
-                                    </td>
-                                    <td>{player.wins}</td>
-                                    <td>{player.loses}</td>
-                                    <td>{player.winRate}</td>
-                                    <td>{player.multiplayerPts}</td>
-                                </tr>
-                            ))
+                            data.map(player => {
+                                let profilePicSrc: string = getImageUrl(`${player.username.toLowerCase()}.jpg`);
+                                // Use default picture if no user image found
+                                if (/undefined$/.test(profilePicSrc)) {
+                                    profilePicSrc = getImageUrl('default.jpg')
+                                }
+                                return (
+                                    <tr key={player.username}>
+                                        <td>
+                                            <img src={profilePicSrc} alt="Profile picture" />
+                                            {player.username}
+                                        </td>
+                                        <td>{player.wins}</td>
+                                        <td>{player.loses}</td>
+                                        <td>{player.winRate}</td>
+                                        <td>{player.multiplayerPts}</td>
+                                    </tr>
+                                )
+                            })
                         }
                     </tbody>
                 </table>
