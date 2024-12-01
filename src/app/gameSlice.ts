@@ -6,7 +6,8 @@ interface GameObj {
     shellLoadout: Shell[],
     liveShells: number,
     blankShells: number,
-    usedShells: Shell[]
+    usedShells: Shell[],
+    gameMode: 'vanilla' | 'multiplayer' | null
 }
 
 interface GameState {
@@ -27,7 +28,8 @@ const initialState: GameState = {
         shellLoadout: [],
         liveShells: 0,
         blankShells: 0,
-        usedShells: []
+        usedShells: [],
+        gameMode: null
     }
 }
 
