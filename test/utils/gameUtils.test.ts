@@ -141,6 +141,22 @@ describe('generateShells', () => {
         // Even though the shells in both loadouts are the same, the order should be different
         expect(isShellOrderDifferent).toBe(true);
     });
+
+    it('Should generate different amount of live shells in a loadout depending on a game mode', () => {
+        vi.spyOn(globalThis.Math, 'random').mockReturnValue(0.5);
+        // Create two loadouts of the same length but for different game modes
+        const firstLoadout = generateShells(MIN, MAX, 0 ,'vanilla');
+        const secondLoadout = generateShells(MIN, MAX, 0, 'multiplayer');
+        const firstLoadoutLiveShells: number = firstLoadout.reduce((acc, curr) => {
+            return acc += curr.type === 'live' ? 1 : 0
+        }, 0);
+        const secondLoadoutLiveShells: number = secondLoadout.reduce((acc, curr) => {
+            return acc += curr.type === 'live' ? 1 : 0
+        }, 0);
+
+        expect(firstLoadout.length).toEqual(secondLoadout.length);
+        expect(firstLoadoutLiveShells).toBeLessThan(secondLoadoutLiveShells);
+    });
 });
 
 describe('usePhone', () => {
