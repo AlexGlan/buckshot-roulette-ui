@@ -23,7 +23,8 @@ export const generateItems = (
 export const generateShells = (
     min: number,
     max: number,
-    prevLoadoutLength: number = 0
+    prevLoadoutLength: number = 0,
+    gameMode: 'vanilla' | 'multiplayer' = 'vanilla'
 ): Shell[] => {
     let loadoutSize: number = 0;
     // Generate random amount of shells until we get a different value than last time
@@ -31,7 +32,9 @@ export const generateShells = (
         loadoutSize = Math.floor(Math.random() * (max - min + 1)) + min;
     } while (loadoutSize === prevLoadoutLength);
 
-    let amountLive: number = Math.max(1, Math.floor(loadoutSize / 2));
+    let amountLive: number = gameMode === 'vanilla'
+        ? Math.max(1, Math.floor(loadoutSize / 2))
+        : Math.max(1, Math.ceil(loadoutSize / 2))
     const loadout: Shell[] = [];
 
     // Add live and blank rounds to loadout array

@@ -58,7 +58,7 @@ const App = () => {
             dispatch(setLives(4));
         }
 
-        const startLoadout: Shell[] = generateShells(MIN_SHELLS, MAX_SHELLS)
+        const startLoadout: Shell[] = generateShells(MIN_SHELLS, MAX_SHELLS, 0, gameMode);
         const startItems: number = generateItems(MIN_ITEMS, MAX_ITEMS, startLoadout.length);
         const liveShells: number = startLoadout.reduce((acc, curr) => {
             return curr.type === 'live' ? acc += 1 : acc
@@ -69,7 +69,8 @@ const App = () => {
             items: startItems,
             shellLoadout: startLoadout,
             liveShells,
-            blankShells
+            blankShells,
+            gameMode
         }));
         
         // Restart CSS amination
@@ -81,7 +82,7 @@ const App = () => {
 
     const generateNextLoadout = (): void => {
         dispatch(setCurrLoadout());
-        const newLoadout: Shell[] = generateShells(MIN_SHELLS, MAX_SHELLS, gameObj.shellLoadout.length);
+        const newLoadout: Shell[] = generateShells(MIN_SHELLS, MAX_SHELLS, gameObj.shellLoadout.length, gameObj.gameMode!);
         const newItems: number = generateItems(MIN_ITEMS, MAX_ITEMS, newLoadout.length, gameObj.items);
         const liveShells: number = newLoadout.reduce((acc, curr) => {
             return curr.type === 'live' ? acc += 1 : acc
