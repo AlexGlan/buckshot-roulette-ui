@@ -31,7 +31,7 @@ const SHELL_LOCATIONS: string[] = [
     'Eigth'
 ];
 
-const App = () => {
+const Game = () => {
     const dispatch = useAppDispatch();
     const isGameStarted = useAppSelector(state => state.game.isGameStarted);
     const firstPlayer = useAppSelector(state => state.game.firstPlayer);
@@ -252,4 +252,4 @@ const App = () => {
     )
 }
 
-export default App;
+export default Game;
