@@ -27,12 +27,12 @@
 
         .loadout-container {
             display: flex;
-            gap: .6rem;
-            margin: .8rem 0;
+            gap: .8rem;
+            margin: 1.4rem 0;
         
             .shell {
-                height: 22px;
-                width: 22px;
+                height: 26px;
+                aspect-ratio: 1;
                 border-radius: 50%;
                 margin: 0 .2rem;
                 display: inline-block;
