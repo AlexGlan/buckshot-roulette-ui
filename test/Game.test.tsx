@@ -110,6 +110,22 @@ describe('Game', () => {
         expect(within(loadoutContainer).getAllByText('', { selector: 'span' }).length).toEqual(initialShellCount);
     });
 
+    it('Should remove or restore shells in the loadout when shortcuts are pressed', async () => {
+        const { user } = renderWithProviders();
+        await user.click(screen.getByRole('button', { name: /vanilla/i }));
+        await user.click(screen.getByRole('button', { name: /close/i }));
+
+        const loadoutContainer = screen.getByTestId('loadout');
+        const initialShellCount = within(loadoutContainer).getAllByText('', { selector: 'span' }).length;
+
+        // Remove shell
+        await user.keyboard('{Control>}{ArrowRight/}');
+        expect(within(loadoutContainer).getAllByText('', { selector: 'span' }).length).toEqual(initialShellCount - 1);
+        // Restore shell
+        await user.keyboard('{Control>}{ArrowLeft/}');
+        expect(within(loadoutContainer).getAllByText('', { selector: 'span' }).length).toEqual(initialShellCount);
+    });
+
     it('Should display a modal showing random shell location when burner phone button is clicked', async () => {
         const { user } = renderWithProviders();
         await user.click(screen.getByRole('button', { name: /vanilla/i }));
@@ -131,6 +147,22 @@ describe('Game', () => {
 
         expect(screen.getByText(/loadout 1/i)).toBeInTheDocument();
         await user.click(screen.getByRole('button', { name: /loadout/i }));
+        expect(screen.getByText(/loadout 2/i)).toBeInTheDocument();
+        expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+        expect(screen.getByText(/\d+.*lives/i)).toBeInTheDocument();
+        expect(screen.getByText(/\d+.*items/i)).toBeInTheDocument();
+        expect(screen.getByText(/\d+.*live .*/i)).toBeInTheDocument();
+        expect(screen.getByText(/\d+.*blank/i)).toBeInTheDocument();
+        expect(within(screen.getByTestId('loadout')).getAllByText('', { selector: 'span' }));
+    });
+
+    it('Should generate and display next game loadout state when a shortcut is pressed', async () => {
+        const { user } = renderWithProviders();
+        await user.click(screen.getByRole('button', { name: /vanilla/i }));
+        await user.click(screen.getByRole('button', { name: /close/i }));
+
+        expect(screen.getByText(/loadout 1/i)).toBeInTheDocument();
+        await user.keyboard('{Control>}{Enter/}');
         expect(screen.getByText(/loadout 2/i)).toBeInTheDocument();
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
         expect(screen.getByText(/\d+.*lives/i)).toBeInTheDocument();

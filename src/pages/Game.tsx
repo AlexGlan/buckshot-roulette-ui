@@ -6,6 +6,7 @@ import generateRandomID from "../utils/generateRandomID";
 import NavBar from "../components/NavBar";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { setFirstPlayer, setGameObj, setGameStatus, setLives, setCurrLoadout } from "../app/gameSlice";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export type Shell = {
     type: string,
@@ -142,8 +143,12 @@ const Game = () => {
         }
     }
 
-    let content: React.ReactNode;
+    // Use keyboard shortcuts
+    useHotkeys('ctrl+right', () => removeShell());
+    useHotkeys('ctrl+left', () => restoreShell());
+    useHotkeys('ctrl+enter', () => generateNextLoadout());
 
+    let content: React.ReactNode;
     if (!isGameStarted) {
         content = (
             <div className="game-modes">
